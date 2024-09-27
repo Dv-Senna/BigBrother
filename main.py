@@ -16,25 +16,18 @@ def main():
     # Créer le gestionnaire d'événements
     event_manager = EventManager()
 
-    # Fonction de callback pour changer le fond d'écran
-    def on_arrow_left_click():
-        event_handler.change_background(-1)
-
-    def on_arrow_right_click():
-        event_handler.change_background(1)
-
-    # Enregistrer les événements et les callbacks
-    event_manager.register_event("arrow_left_clicked")
-    event_manager.register_event("arrow_right_clicked")
-    event_manager.register_callback("arrow_left_clicked", on_arrow_left_click)
-    event_manager.register_callback("arrow_right_clicked", on_arrow_right_click)
-
     # Initialiser l'event handler
     event_handler = EventHandler(window, backgrounds, arrow_left, arrow_right, event_manager)
 
+    # Enregistrer les événements et associer les callbacks statiques
+    event_manager.register_event("arrow_left_clicked")
+    event_manager.register_event("arrow_right_clicked")
+    event_manager.register_callback("arrow_left_clicked", EventHandler.on_arrow_left_click)
+    event_manager.register_callback("arrow_right_clicked", EventHandler.on_arrow_right_click)
+
     while True:
-        # Gestion des événements par le fichier eventHandler.py
-        event_handler.handle_events()
+        # Gérer les événements et mettre à jour l'état du jeu
+        event_handler.update()
 
         # Mise à jour de l'affichage
         window.fill((255, 255, 255))  # Fond blanc
