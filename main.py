@@ -8,6 +8,8 @@ from log_manager import Typewriter
 class SceneNames:
 	DOOR = "doorScene"
 	MAIN_MENU = "mainMenuScene"
+from sceneManager import *
+from DialogManager import DialogManager
 
 # to check if a scene is a doorScene, just use `if SceneManager.getCurrentSceneName()[:-1] == SceneNames.DOOR`4
 # you can also check for currentScene == -1
@@ -44,6 +46,9 @@ def main():
 	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
 
 
+	mainScene = Scene(mainSceneUpdate, mainSceneRender)
+	SceneManager.addScene("main", mainScene)
+	DialogManager.DisplayText("Test")
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((16*70, 9*70))
 	pg.display.set_caption("BigBrother")
