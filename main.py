@@ -4,9 +4,13 @@ from scenes.doorScene import *
 
 
 def main():
-	doorScene = DoorScene()
-	SceneManager.addScene("doorScene", doorScene)
-	SceneManager.setCurrentScene("doorScene")
+	doorScenes = [
+		DoorScene(pg.image.load("res/spritesheet.png"))
+	]
+
+	for i in range(0, len(doorScenes)):
+		SceneManager.addScene(f"doorScene{i}", doorScenes[i])
+	SceneManager.setCurrentScene("doorScene0")
 
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((16*70, 9*70))

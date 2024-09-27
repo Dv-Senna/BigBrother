@@ -1,4 +1,3 @@
-from typing import Callable
 import pygame as pg
 
 
@@ -10,6 +9,12 @@ class Scene:
 		pass
 
 	def render(self, window: pg.Surface):
+		pass
+
+	def mount(self):
+		pass
+
+	def unmount(self):
 		pass
 
 
