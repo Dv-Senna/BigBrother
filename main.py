@@ -1,15 +1,12 @@
 import pygame as pg
 from sceneManager import *
+from scenes.doorScene import *
 
-
-def mainSceneUpdate():
-	return
-def mainSceneRender():
-	return
 
 def main():
-	mainScene = Scene(mainSceneUpdate, mainSceneRender)
-	SceneManager.addScene("main", mainScene)
+	doorScene = DoorScene()
+	SceneManager.addScene("doorScene", doorScene)
+	SceneManager.setCurrentScene("doorScene")
 
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((16*70, 9*70))
@@ -21,12 +18,12 @@ def main():
 				return
 		
 		# update section
-		SceneManager.getCurrentScene().updateCallback()
+		SceneManager.getCurrentScene().update()
 
 		# draw section
 		window.fill((0, 0, 0))
 
-		SceneManager.getCurrentScene().renderCallback()
+		SceneManager.getCurrentScene().render(window)
 
 		pg.display.update()
 		fpsClock.tick(60)
