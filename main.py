@@ -1,8 +1,17 @@
 import pygame as pg
+from sceneManager import *
+from DialogManager import DialogManager
 
 
+def mainSceneUpdate():
+	return
+def mainSceneRender():
+	return
 
 def main():
+	mainScene = Scene(mainSceneUpdate, mainSceneRender)
+	SceneManager.addScene("main", mainScene)
+	DialogManager.DisplayText("Test")
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((16*70, 9*70))
 	pg.display.set_caption("BigBrother")
@@ -11,10 +20,19 @@ def main():
 		for event in pg.event.get():
 			if event.type == pg.QUIT:
 				return
-			
-		window.fill((255, 0, 0))
+
+		# update section
+		SceneManager.getCurrentScene().updateCallback()
+
+		# draw section
+		window.fill((0, 0, 0))
+
+		SceneManager.getCurrentScene().renderCallback()
+
 		pg.display.update()
 		fpsClock.tick(60)
+
+
 
 if __name__ == "__main__":
 	main()
