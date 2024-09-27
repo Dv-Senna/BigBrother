@@ -8,10 +8,19 @@ class DoorScene(Scene):
 		self.imageRect = self.image.get_rect()
 		self.imageRect.x = 100
 		self.imageRect.y = 200
+		self.position = 100.0
 
 
-	def update(self):
-		pass
+	def update(self, dt: int):
+		self.position += 0.1 * dt
+		self.imageRect.x = int(self.position)
 	
 	def render(self, window: pg.Surface):
 		window.blit(self.image, self.imageRect)
+
+	def mount(self):
+		print("Scene did mount")
+		self.position = 100.0
+
+	def unmount(self):
+		print("Scene did unmount")

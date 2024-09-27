@@ -5,7 +5,7 @@ class Scene:
 	def __init__(self):
 		pass
 
-	def update(self):
+	def update(self, dt: int):
 		pass
 
 	def render(self, window: pg.Surface):
@@ -24,7 +24,13 @@ class SceneManager:
 	
 	@staticmethod
 	def setCurrentScene(sceneName: str):
+		if sceneName == SceneManager.currentScene:
+			return
+
+		if SceneManager.currentScene != "":
+			SceneManager.scenes[SceneManager.currentScene].unmount()
 		SceneManager.currentScene = sceneName
+		SceneManager.scenes[SceneManager.currentScene].mount()
 
 	@staticmethod
 	def getCurrentScene():
