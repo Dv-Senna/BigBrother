@@ -3,6 +3,7 @@ from eventManager import *
 from sceneManager import *
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
+import config
 
 
 class SceneNames:
@@ -32,8 +33,9 @@ def main():
 	global DOOR_COUNT
 
 	doorScenes = [
-		DoorScene(pg.image.load("assets/images/spritesheet.png"), changeCurrentDoor),
-		DoorScene(pg.image.load("assets/images/alian_spaceship_heavy1.png"), changeCurrentDoor)
+		DoorScene(pg.image.load("assets/images/scenes/background1.jpg"), changeCurrentDoor, False, True),
+		DoorScene(pg.image.load("assets/images/scenes/background2.jpg"), changeCurrentDoor, True, True),
+		DoorScene(pg.image.load("assets/images/scenes/background3.jpg"), changeCurrentDoor, True, False),
 	]
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
@@ -45,7 +47,7 @@ def main():
 
 
 	fpsClock = pg.time.Clock()
-	window = pg.display.set_mode((16*70, 9*70))
+	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
 	pg.display.set_caption("BigBrother")
 
 	while True:
