@@ -1,6 +1,7 @@
 import pygame as pg
 from eventManager import *
 from sceneManager import *
+from DialogManager import DialogManager
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
 from log_manager import Typewriter
