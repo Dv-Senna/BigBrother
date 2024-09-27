@@ -27,6 +27,10 @@ class SceneManager:
 		if sceneName == SceneManager.currentScene:
 			return
 
+		if sceneName not in SceneManager.scenes:
+			print(f"\033[31mYou try to set scene '{sceneName}' as the current scene, but it does not exist\033[m")
+			return
+
 		if SceneManager.currentScene != "":
 			SceneManager.scenes[SceneManager.currentScene].unmount()
 		SceneManager.currentScene = sceneName
