@@ -14,8 +14,8 @@ class SceneNames:
 def main():
 	currentDoorScene = 0
 	doorScenes = [
-		DoorScene(pg.image.load("res/spritesheet.png")),
-		DoorScene(pg.image.load("res/alian_spaceship_heavy1.png"))
+		DoorScene(pg.image.load("assets/images/spritesheet.png")),
+		DoorScene(pg.image.load("assets/images/alian_spaceship_heavy1.png"))
 	]
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
