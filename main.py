@@ -1,6 +1,7 @@
 import pygame as pg
 from sceneManager import *
 from scenes.doorScene import *
+from scenes.mainMenuScene import *
 
 
 class SceneNames:
@@ -16,9 +17,11 @@ def main():
 		DoorScene(pg.image.load("res/spritesheet.png")),
 		DoorScene(pg.image.load("res/alian_spaceship_heavy1.png"))
 	]
-
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
+
+	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
+
 	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoorScene}")
 
 	SceneManager.setCurrentScene("ajdjsd")
