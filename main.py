@@ -48,7 +48,26 @@ def main():
 	window = pg.display.set_mode((16*70, 9*70))
 	pg.display.set_caption("BigBrother")
 
+	# Fonts
+	pg.font.init()
+	font = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 12)
+
 	typewriters = []
+	texts = []
+	with open('example_text.txt') as f:
+		texts = f.read().split('\n')
+
+	texts += 10 * ['']
+
+	EventManager.addEventType("key_g", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_g)
+
+	callbackHandler = EventManager.registerCallback("key_g", 
+												 lambda: typewriters.append(
+													 Typewriter(
+														 texts[len(typewriters)], 
+														 font, 
+														 (300, 70 + 20 * len(typewriters)), 
+														 wait_before_start = 0)))
 
 	while True:
 		if not EventManager.update():
