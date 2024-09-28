@@ -36,9 +36,8 @@ def main():
 	global DOOR_COUNT
 
 	doorScenes = [
-		DoorScene(pg.image.load("assets/images/scenes/background1.jpg"), changeCurrentDoor, False, True),
-		DoorScene(pg.image.load("assets/images/scenes/background2.jpg"), changeCurrentDoor, True, True),
-		DoorScene(pg.image.load("assets/images/scenes/background3.jpg"), changeCurrentDoor, True, False),
+		DoorScene(pg.image.load("assets/images/spritesheet.png"), changeCurrentDoor),
+		DoorScene(pg.image.load("assets/images/alian_spaceship_heavy1.png"), changeCurrentDoor)
 	]
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
@@ -48,7 +47,6 @@ def main():
 
 	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
 
-	SceneManager.setCurrentScene("ajdjsd")
 
 	mainScene = Scene(mainSceneUpdate, mainSceneRender)
 	SceneManager.addScene("main", mainScene)
@@ -56,6 +54,15 @@ def main():
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
 	pg.display.set_caption("BigBrother")
+	IMG = pg.image.load("test.png")
+	_dialogManagertest = DialogManager(window, IMG, 25)
+	testText = """"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"
+	"""
+	_dialogManagertest.DisplayText(testText)
+	# _dialogManagertest.UpdateText("TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST")
+	# _dialogManagertest.ShowDialog()
+	_dialogManagertest.HideDialog()
+	_dialogManagertest.ShowDialog()
 
 	# load font
 	font = pg.font.init()
