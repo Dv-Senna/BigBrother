@@ -55,6 +55,7 @@ def main():
 
 	# Sound
 	SoundManager.load_all()
+	SoundManager.play_ambient('outdoor_subsurb_birds', 4)
 
 	typewriters = []
 	texts = []
@@ -65,8 +66,13 @@ def main():
 
 	EventManager.addEventType("key_g", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_g)
 
-	callbackHandler = EventManager.registerCallback("key_g", 
+	callbackHandlerG = EventManager.registerCallback("key_g", 
 												 lambda: startLogHandler(typewriters, texts, font))
+
+	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
+
+	callbackHandlerH = EventManager.registerCallback("key_h", 
+												 lambda: displayAllLogs(typewriters, texts, font, 100))
 
 	while True:
 		if not EventManager.update():

@@ -3,8 +3,6 @@ import pygame as pg
 
 from log_manager import Typewriter
 
-
-
 class EventManager:
 	eventTypes: dict[str, Callable[[pg.event.Event], bool]] = {}
 	eventCallbacks: dict[str, dict[int, Callable[[], None]]] = {}
@@ -79,7 +77,18 @@ def startLogHandler(typewriters, texts, font):
 		(300, 70 + 20 * len(typewriters)), 
 		speed=50,
 		wait_before_start = 0))
-
+	
+def displayAllLogs(typewriters, texts, font, delay_between_each_line=5000):
+	print('deee')
+	for i, text in enumerate(texts):
+		typewriters.append(Typewriter(
+			text, 
+			font, 
+			(300, 70 + 20 * len(typewriters)), 
+			#speed=50 - i / len(texts),
+			silent=True,
+			wait_before_start = i * delay_between_each_line)),
+	typewriters[len(typewriters)-1].silent = False
 if __name__ == "__main__":
 	pg.init()
 

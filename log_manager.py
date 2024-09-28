@@ -45,15 +45,13 @@ class Typewriter:
 
         delay = now - self.last_update_time
         if delay < self.wait:
-            self.wait -= delay
             return False
         else:
-            delay -= self.wait
             self.wait = 0
             return True
 
 
     def draw(self, surface):
-        if self.drawable():
-            text_surface = self.font.render(self.text[:self.current_index], True, WHITE)
-            surface.blit(text_surface, self.pos)
+        #if self.drawable():
+        text_surface = self.font.render(self.text[:self.current_index], True, WHITE)
+        surface.blit(text_surface, self.pos)
