@@ -59,6 +59,18 @@ def onClickDoor():
 
 
 def onClickEye():
+	room_id = int(SceneManager.getCurrentSceneName()[-1])
+
+	if room_id == 0:
+		SoundManager.play_sound('scream_man')
+	elif room_id == 1:
+		SoundManager.play_sound('scream_man')
+	elif room_id == 2:
+		SoundManager.play_sound('scream_man')
+	elif room_id == 3:
+		SoundManager.play_sound('scream_woman', 0.1)
+		SoundManager.stop_sound('crying_1', 0.1)
+
 	SceneManager.getCurrentScene().dead=True
 
 def onClickLogs():
@@ -135,7 +147,7 @@ class DoorScene(Scene):
 		EventManager.registerCallback("door", onClickDoor)
 
 		print('mount', SceneManager.getCurrentSceneName())
-		if '3' in SceneManager.getCurrentSceneName():
+		if '3' in SceneManager.getCurrentSceneName() and not self.dead:
 			print('ouinnnn')
 			SoundManager.play_sound('crying_1', 0.1)
 
