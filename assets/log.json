@@ -2,17 +2,206 @@
 	"103": [
 		{
 			"id": "1",
-			"start": "17:30",
-			"end": "18:00",
-			"text": "Une log très importante",
-			"dialog": "1"
+			"start": "07:23",
+			"end": "07:30",
+			"text": "wakes up and brushes their teeth",
+			"dialog": "4"
 		},
 		{
 			"id": "2",
-			"start": "18:30",
-			"end": "19:00",
-			"text": "Une 2e log très importante",
-			"dialog": ""
+			"start": "07:31",
+			"end": "07:47",
+			"text": "takes a shower (16 min.)",
+			"dialog": "4"
+		},
+		{
+			"id": "3",
+			"start": "08:12",
+			"end": "08:31",
+			"text": "breakfast, fried eggs and bacon",
+			"dialog": "4"
+		},
+		{
+			"id": "4",
+			"start": "08:36",
+			"end": "08:56",
+			"text": "cleans the dishes and begins to do the laundry",
+			"dialog": "4"
+		},
+		{
+			"id": "5",
+			"start": "09:25",
+			"end": "09:25",
+			"text": "User 104 enters Unit 103",
+			"dialog": "3"
+		},
+		{
+			"id": "5",
+			"start": "10:27",
+			"end": "10:27",
+			"text": "User 104 leaves Unit 103",
+			"dialog": "3"
+		},
+		{
+			"id": "5",
+			"start": "10:31",
+			"end": "10:31",
+			"text": "leaves Unit 103",
+			"dialog": "1"
+		},
+		{
+			"id": "6",
+			"start": "11:47",
+			"end": "12:10",
+			"text": "prepares lunch, chicken with rice",
+			"dialog": "4"
+		},
+		{
+			"id": "7",
+			"start": "12:12",
+			"end": "12:45",
+			"text": "has lunch (28 min.), brushes teeth",
+			"dialog": "4"
+		},
+		{
+			"id": "8",
+			"start": "12:46",
+			"end": "13:10",
+			"text": "polishes his shoes, puts on work attire",
+			"dialog": "4"
+		},
+		{
+			"id": "9",
+			"start": "13:26",
+			"end": "13:26",
+			"text": "leaves Unit 103",
+			"dialog": "1"
 		}
-	]
+	],
+	"104": [
+		{
+			"id": "1",
+			"start": "08:20",
+			"end": "08:56",
+			"text": "wakes up and has breakfast, cereal",
+			"dialog": "2"
+		},
+		{
+			"id": "2",
+			"start": "8h59",
+			"end": "09:04",
+			"text": "puts on heavy-work clothes",
+			"dialog": "1"
+		},
+		{
+			"id": "3",
+			"start": "09:23",
+			"end": "09:23",
+			"text": "leaves Unit 104",
+			"dialog": "1"
+		},
+		{
+			"id": "3",
+			"start": "09:31",
+			"end": "09:31",
+			"text": "User 104 turns the TV on. Discussion between User 103 and 104 unintelligible",
+			"dialog": "3"
+		},
+		{
+			"id": "4",
+			"start": "14:26",
+			"end": "14:26",
+			"text": "returns Unit 104",
+			"dialog": "1"
+		},
+		{
+			"id": "5",
+			"start": "14:38",
+			"end": "15:06",
+			"text": "takes a shower (28 min.)",
+			"dialog": "2"
+		},
+		{
+			"id": "6",
+			"start": "15:03",
+			"end": "17:17",
+			"text": "reads a book (2h14)",
+			"dialog": "2"
+		}
+	],
+	"105": [
+    {
+        "id": "1",
+        "start": "08:00",
+        "end": "08:15",
+        "text": "wakes up and makes the bed",
+        "dialog": "1"
+    },
+    {
+        "id": "2",
+        "start": "08:16",
+        "end": "08:30",
+        "text": "goes for a morning walk",
+        "dialog": "1"
+    },
+    {
+        "id": "3",
+        "start": "08:31",
+        "end": "08:50",
+        "text": "prepares and has breakfast, toast and jam",
+        "dialog": "1"
+    },
+    {
+        "id": "4",
+        "start": "09:00",
+        "end": "09:20",
+        "text": "reads the news online",
+        "dialog": "1"
+    },
+    {
+        "id": "5",
+        "start": "09:21",
+        "end": "09:35",
+        "text": "does some light cleaning in the living room",
+        "dialog": "1"
+    }
+],
+"106": [
+    {
+        "id": "1",
+        "start": "08:00",
+        "end": "08:15",
+        "text": "wakes up and stretches",
+        "dialog": "1"
+    },
+    {
+        "id": "2",
+        "start": "08:16",
+        "end": "08:30",
+        "text": "takes a quick shower",
+        "dialog": "1"
+    },
+    {
+        "id": "3",
+        "start": "08:31",
+        "end": "08:50",
+        "text": "brews coffee and enjoys a cup",
+        "dialog": "1"
+    },
+    {
+        "id": "4",
+        "start": "09:00",
+        "end": "09:20",
+        "text": "feeds the pet",
+        "dialog": "1"
+    },
+    {
+        "id": "5",
+        "start": "09:21",
+        "end": "09:40",
+        "text": "organizes the desk and plans the day",
+        "dialog": "1"
+    }
+]
+
 }
