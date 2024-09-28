@@ -8,7 +8,6 @@ from sounds_manager import SoundManager
 import random
 import config
 
-from log_manager import Typewriter
 
 class SceneNames:
 	DOOR = "doorScene"
