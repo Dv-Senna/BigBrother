@@ -4,6 +4,7 @@ from sceneManager import *
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
 from log_manager import Typewriter
+from scenes.openDoorScene import OpenDoorScene
 from sounds_manager import SoundManager
 import random
 import config
@@ -11,7 +12,9 @@ import config
 
 class SceneNames:
 	DOOR = "doorScene"
+	OPEN_DOOR = "openDoorScene"
 	MAIN_MENU = "mainMenuScene"
+
 
 # to check if a scene is a doorScene, just use `if SceneManager.getCurrentSceneName()[:-1] == SceneNames.DOOR`4
 # you can also check for currentScene == -1
@@ -42,9 +45,20 @@ def main():
 		DoorScene(pg.image.load("assets/images/scenes/background2.jpg"), changeCurrentDoor, True, True),
 		DoorScene(pg.image.load("assets/images/scenes/background3.jpg"), changeCurrentDoor, True, False),
 	]
+
+	openDoorScenes = [
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
+	]
+
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
+
+	for i in range(0, len(doorScenes)):
+		SceneManager.addScene(f"{SceneNames.OPEN_DOOR}{i}", openDoorScenes[i])
+
 
 	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
 
@@ -71,15 +85,21 @@ def main():
 	with open('example_text.txt') as f:
 		texts = f.read().split('\n')
 
-	texts += 10 * ['']
+	with open('text_mysterious.txt') as f:
+		texts_myst = f.read().split('\n')
 
 	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
 	callbackHandlerH = EventManager.registerCallback("key_h", 
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
+	
+	displaySpecialLog(typewriters, texts_myst, font=font, delay_between_each_line=100, speed=1, scene='openDoorScene1')
+
 
 	while True:
 		if not EventManager.update():
 			return
+
+		print(SceneManager.currentScene)
 
 		# update section
 		SceneManager.update(fpsClock.get_time())
