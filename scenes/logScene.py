@@ -25,6 +25,11 @@ def check_collide(rects, links, mouse):
 def esc_key():
 	SceneManager.setCurrentScene(f'doorScene{SceneManager.getCurrentSceneName()[-1]}')
 
+
+def special_interupt():
+	SceneManager.setCurrentScene("openDoorScene2")
+	StoryManager.selectDialog("-1")
+
 class LogScene(Scene):
 	def __init__(self, image: pg.Surface, person: str, font, speed):
 		self.image = image
@@ -57,7 +62,7 @@ class LogScene(Scene):
 			if i != 0:
 				wait_before += self.speed * len(self.texts[i-1]) * 3 + 200
 			if i == len(self.texts) -1 and door_id == 2:
-				on_finish = lambda: open_scene_special('openDoorScene2')
+				on_finish = special_interupt
 			else:
 				on_finish = lambda: print('abc')
 			self.logs_link.append(text)

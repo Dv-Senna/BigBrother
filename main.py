@@ -142,7 +142,10 @@ def main():
 		if SceneManager.currentScene != "":
 			if isinstance(SceneManager.scenes[SceneManager.currentScene], OpenDoorScene):
 				if StoryManager.currentPerson != "":
-					SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time(), StoryManager.getCurrentDialog()["text"])
+					text = "..."
+					if "text" in StoryManager.getCurrentDialog():
+						text = StoryManager.getCurrentDialog()["text"]
+					SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time(), text)
 			elif isinstance(SceneManager.scenes[SceneManager.currentScene], LogScene):
 				if StoryManager.currentPerson != "":
 					logs = []
