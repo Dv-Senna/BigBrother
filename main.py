@@ -2,7 +2,7 @@ import pygame as pg
 from sceneManager import *
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
-
+from log_manager import Typewriter
 
 class SceneNames:
 	DOOR = "doorScene"
@@ -30,6 +30,12 @@ def main():
 	window = pg.display.set_mode((16*70, 9*70))
 	pg.display.set_caption("BigBrother")
 
+	# load font
+	font = pg.font.init()
+	font = pg.font.Font(None, 36)
+
+	typewriters = []
+
 	while True:
 		for event in pg.event.get():
 			if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
@@ -41,7 +47,11 @@ def main():
 				if event.key == pg.K_s:
 					currentDoorScene = 0
 					SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoorScene}")
-		
+				
+				if event.key == pg.K_g:
+					typewriters.append(Typewriter('7 am: User 403 brushes his teeths', font, (300, 300)))
+					typewriters.append(Typewriter('7:04 am: User 403 eats breakfast', font, (300, 325), wait_before_start=5000))
+
 		# update section
 		SceneManager.getCurrentScene().update(fpsClock.get_time())
 
@@ -49,6 +59,11 @@ def main():
 		window.fill((0, 0, 0))
 
 		SceneManager.getCurrentScene().render(window)
+
+		#render text
+		for typewriter in typewriters:
+			typewriter.update()
+			typewriter.draw(window)
 
 		pg.display.update()
 		fpsClock.tick(60)
