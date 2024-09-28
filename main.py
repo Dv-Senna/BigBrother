@@ -35,13 +35,15 @@ def main():
 		DoorScene(pg.image.load("assets/images/spritesheet.png"), changeCurrentDoor),
 		DoorScene(pg.image.load("assets/images/alian_spaceship_heavy1.png"), changeCurrentDoor)
 	]
+	play_button = pg.image.load("assets/images/alian_spaceship_heavy1.png")
+	quit_button = pg.image.load("assets/images/alian_spaceship_heavy1.png")
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
 
-	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
+	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene(play_button, quit_button))
 
-	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
+	SceneManager.setCurrentScene(SceneNames.MAIN_MENU)
 
 
 	fpsClock = pg.time.Clock()
