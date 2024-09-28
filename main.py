@@ -3,6 +3,7 @@ from eventManager import *
 from sceneManager import *
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
+from log_manager import Typewriter
 import config
 
 
@@ -45,14 +46,33 @@ def main():
 
 	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
 
+	SceneManager.setCurrentScene("ajdjsd")
 
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
 	pg.display.set_caption("BigBrother")
 
+	# load font
+	font = pg.font.init()
+	font = pg.font.Font(None, 36)
+
+	typewriters = []
+
 	while True:
-		if not EventManager.update():
-			return
+		for event in pg.event.get():
+			if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
+				return
+			elif event.type == pg.KEYDOWN:
+				if event.key == pg.K_a:
+					currentDoorScene = 1
+					SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoorScene}")
+				if event.key == pg.K_s:
+					currentDoorScene = 0
+					SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoorScene}")
+
+				if event.key == pg.K_g:
+					typewriters.append(Typewriter('7 am: User 403 brushes his teeths', font, (300, 300)))
+					typewriters.append(Typewriter('7:04 am: User 403 eats breakfast', font, (300, 325), wait_before_start=5000))
 
 		# update section
 		SceneManager.update()
@@ -63,10 +83,15 @@ def main():
 
 		SceneManager.getCurrentScene().render(window)
 
+		#render text
+		for typewriter in typewriters:
+			typewriter.update()
+			typewriter.draw(window)
+
 		pg.display.update()
 		fpsClock.tick(60)
 
 
 
 if __name__ == "__main__":
-    main()
+	main()
