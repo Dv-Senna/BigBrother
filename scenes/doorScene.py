@@ -37,7 +37,22 @@ def check_collide(rect, mouse):
 
 def onClickDoor():
 	SoundManager.play_sound(f'triKnock{random.randint(1, 12):02d}')
-	pass
+	room_id = int(SceneManager.getCurrentSceneName()[-1])
+
+	if room_id == 0:
+		print('Clicked on room 103, opens')
+		SceneManager.setCurrentScene(f'openDoorScene{SceneManager.getCurrentSceneName()[-1]}')
+	elif room_id == 1:
+		print('Clicked on room 104, opens')
+		SceneManager.setCurrentScene(f'openDoorScene{SceneManager.getCurrentSceneName()[-1]}')
+	elif room_id == 2:
+		print('Clicked on room 105, nothing happens')
+		pass
+	elif room_id == 3:
+		print('Clicked on room 106, nothing happens')
+		return
+
+
 
 def onClickEye():
 	pass
@@ -90,6 +105,11 @@ class DoorScene(Scene):
 		EventManager.addEventType("door", lambda event: event.type==pg.MOUSEBUTTONDOWN and check_collide(self.door, pg.mouse))
 		EventManager.registerCallback("door", onClickDoor)
 
+		print('mount', SceneManager.getCurrentSceneName())
+		if '3' in SceneManager.getCurrentSceneName():
+			print('ouinnnn')
+			SoundManager.play_sound('crying_1', 0.1)
+
 
 
 	def unmount(self):
@@ -99,6 +119,9 @@ class DoorScene(Scene):
 		EventManager.removeEventType("door")
 
 		EventManager.removeEventType("right_arrow")
+
+		SoundManager.sounds['crying_1'].stop()
+
 
 	def update(self, dt: int):
 		mouse_pos = pg.mouse.get_pos()

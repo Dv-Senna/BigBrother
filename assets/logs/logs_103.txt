@@ -1,0 +1,14 @@
+7h23  : User 103 wakes up and brushes their teeth
+7h31  : User 103 takes a shower (16 min.)
+8h12  : User 103 has breakfast, fried eggs and bacon
+8h36  : User 103 cleans the dishes and begins to do the laundry
+9h25  : User 104 enters Unit 103
+9h31  : User 104 turns the TV on. Discussion between User 103 and 104 unintelligible
+10h27 : User 104 leaves Unit 103
+10h31 : User 103 leaves Unit 103
+11h21 : User 103 returns to Unit 103 with grocery bags (-75.59$)
+11h47 : User 103 prepares lunch, chicken with rice
+12h12 : User 103 has lunch (28 min.), brushes teeth
+12h40 : User 103 polishes his shoes, puts on work attire
+13h26 : User 103 leaves Unit 103
+17h04 : User 103 returns to Unit 103

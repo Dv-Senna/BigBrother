@@ -11,6 +11,10 @@ def init_dialog(initial_text, background_img, fontUsed, Location=(-1,-1)):
 
 	
 
+def esc_key():
+	SceneManager.setCurrentScene(f'doorScene{SceneManager.getCurrentSceneName()[-1]}')
+
+
 class OpenDoorScene(Scene):
 	def __init__(self, image: pg.Surface, person: str):
 		self.NPCDialogBackground_img = pg.image.load(
@@ -24,9 +28,8 @@ class OpenDoorScene(Scene):
 
 	def mount(self):
 		StoryManager.selectPerson(self.person)
-	
-	def unmount(self):
-		pass
+		EventManager.addEventType("back to door", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE)
+		EventManager.registerCallback("back to door", esc_key)
 	
 	def update(self, dt: int, dialogText: str):
 		if not isinstance(self.dialogManager, dict):
@@ -36,6 +39,14 @@ class OpenDoorScene(Scene):
 		self.currentDialogText = dialogText
 		self.dialogManager = init_dialog(dialogText, self.NPCDialogBackground_img, self.fontForNPC)
 		self.dialogManager.toggle_visibility()
+
+
+
+	def unmount(self):
+
+		EventManager.removeEventType('back to door')
+
+
 
 	def render(self, window: pg.Surface):
 		window.fill((255, 0, 255))

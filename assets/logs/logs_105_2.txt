@@ -1,0 +1,7 @@
+10h42 : User 105 and 104 enter Unit 105
+11h : User 105 hands box to User 104
+11h45 : User 104 leaves Unit 105
+12h59 : Unauthorized visit - 3 outside men enter Unit 105
+13h-14h22 : Interference detected. Discussion between 105 and the outside men unintelligible
+14h-14h18 : User 105 trades different wrapped boxes to the 3 men in exange for money (+3000$)
+14h22 : User 105 and the 3 men leave Unit 105

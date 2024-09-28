@@ -1,0 +1,6 @@
+8h20 : User 104 wakes up and has breakfast, cereal
+8h59 : User 104 puts on heavy-work clothes
+9h23 : User 104 leaves Unit 104
+16h30 : User 104 returns to Unit 104
+16h51 : User 104 takes a shower (28 min.)
+17h23 : User 104 reads a book

@@ -36,6 +36,9 @@ def mainSceneUpdate():
 def load_sprite(path):
 	return pg.image.load(path)
 
+def load_sprite(path):
+	return pg.image.load(path)
+
 def changeCurrentDoor(goLeft: bool) -> int:
 	global currentDoor
 	global DOOR_COUNT
@@ -58,8 +61,10 @@ def main():
 
 	StoryManager.setup()
 
+	
 	doorScenes = [
 		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, False, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, False),
 	]
@@ -68,12 +73,14 @@ def main():
 		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "103"),
 		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "104"),
 		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "105"),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "106"),
 	]
 
 	logScenes = [
 		LogScene(pg.image.load("assets/images/scenes/log.png"), "103", font, 1),
 		LogScene(pg.image.load("assets/images/scenes/log.png"), "104", font, 1),
 		LogScene(pg.image.load("assets/images/scenes/log.png"), "105", font, 1),
+		LogScene(pg.image.load("assets/images/scenes/log.png"), "106", font, 1),
 	]
 
 	DOOR_COUNT = len(doorScenes)
@@ -115,9 +122,6 @@ def main():
 	random_sound_wait = SOUND_FREQ * (1 + random.random())
 
 	typewriters = []
-	texts = []
-	with open('example_text.txt') as f:
-		texts = f.read().split('\n')
 
 	with open('text_mysterious.txt') as f:
 		texts_myst = f.read().split('\n')

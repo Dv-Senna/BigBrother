@@ -20,7 +20,7 @@ class EventManager:
 		for event in pg.event.get():
 			if event.type == pg.QUIT:
 				return False
-			if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+			if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE and 'doorScene' in SceneManager.getCurrentSceneName():
 				return False
 
 			for type in EventManager.eventTypes:
@@ -114,7 +114,7 @@ def displaySpecialLog(typewriters, texts, font, scene, delay_between_each_line=5
 		typewriters.append(Typewriter(
 			text, 
 			font, 
-			(300, 70 + 20 * len(typewriters)), 
+			(300, 70 + 30 * len(typewriters)), 
 			speed=speed,
 			#silent=i != index_with_noise,
 			wait_before_start = wait_before,
