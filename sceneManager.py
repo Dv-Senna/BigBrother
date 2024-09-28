@@ -1,4 +1,5 @@
 import pygame as pg
+import config
 
 
 class Scene:
@@ -22,7 +23,10 @@ class SceneManager:
 	currentScene: str = ""
 	targetScene: str = ""
 	scenes: dict[str, Scene] = {}
+	transitionTimer: int = 0
+	blackScreenOpacity: int = 0
 	
+
 	@staticmethod
 	def setCurrentScene(sceneName: str):
 		if sceneName == SceneManager.currentScene:
@@ -35,15 +39,41 @@ class SceneManager:
 		SceneManager.targetScene = sceneName
 
 	@staticmethod
-	def update():
+	def update(dt: int):
+		if SceneManager.currentScene != "":
+			SceneManager.scenes[SceneManager.currentScene].update(dt)
+
 		if SceneManager.targetScene == "":
 			return
 
+		if SceneManager.transitionTimer == 0:
+			if SceneManager.currentScene != "":
+				SceneManager.scenes[SceneManager.currentScene].unmount()
+
+
+		SceneManager.transitionTimer += dt
+		if SceneManager.currentScene[:-1] == "doorScene":
+			if SceneManager.transitionTimer < config.BLACK_FADE_TRANSITION_TIME / 2:
+				SceneManager.blackScreenOpacity = SceneManager.transitionTimer / config.BLACK_FADE_TRANSITION_TIME * 255 * 2
+			else:
+				SceneManager.currentScene = SceneManager.targetScene
+				SceneManager.blackScreenOpacity = 255 - (SceneManager.transitionTimer - config.BLACK_FADE_TRANSITION_TIME / 2) / config.BLACK_FADE_TRANSITION_TIME * 255 * 2
+
+		else:
+			pass
+
+		if SceneManager.transitionTimer < config.BLACK_FADE_TRANSITION_TIME:
+			return
+		
 		SceneManager.currentScene = SceneManager.targetScene
 		SceneManager.targetScene = ""
-		if SceneManager.currentScene != "":
-			SceneManager.scenes[SceneManager.currentScene].unmount()
 		SceneManager.scenes[SceneManager.currentScene].mount()
+		SceneManager.transitionTimer = 0
+
+	@staticmethod
+	def render(window: pg.Surface):
+		if SceneManager.currentScene != "":
+			SceneManager.scenes[SceneManager.currentScene].render(window)
 
 	@staticmethod
 	def getCurrentScene():

@@ -58,18 +58,23 @@ def main():
 			return
 
 		# update section
-		SceneManager.update()
-		SceneManager.getCurrentScene().update(fpsClock.get_time())
+		SceneManager.update(fpsClock.get_time())
 
 		# draw section
 		window.fill((0, 0, 0))
 
-		SceneManager.getCurrentScene().render(window)
+		SceneManager.render(window)
 
-		#render text
+		# render text
 		for typewriter in typewriters:
 			typewriter.update()
 			typewriter.draw(window)
+
+		# darken for transition
+		blackScreenSurface = pg.Surface((window.get_rect().w, window.get_rect().h))
+		blackScreenSurface.fill((0, 0, 0))
+		blackScreenSurface.set_alpha(SceneManager.blackScreenOpacity)
+		window.blit(blackScreenSurface, blackScreenSurface.get_rect())
 
 		pg.display.update()
 		fpsClock.tick(60)
