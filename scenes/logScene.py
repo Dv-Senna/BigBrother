@@ -52,7 +52,7 @@ class LogScene(Scene):
 		global firstInterupt
 		door_id = int(SceneManager.getCurrentSceneName()[-1])
 
-		if door_id == 2:
+		if door_id == 2 and firstInterupt:
 			print('Loading the scene with auto screamer')
 			SoundManager.play_sound('run_door', 2)
 

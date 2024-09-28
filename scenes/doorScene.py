@@ -10,6 +10,12 @@ import glob
 isLeftArrowButtonPress = False
 isRightArrowButtonPress = False
 
+
+fade_surface = pg.Surface((1920, 1080))
+fade_surface.fill((0, 0, 0))  # Fill with black
+alpha = 0  # Start with fully transparent
+fade_surface.set_alpha(alpha)  # Set the transparency level
+
 def doorRightArrowFilter(event: pg.event.Event, collidebox: pg.Rect) -> bool:
 	global isRightArrowButtonPress
 	if event.type != pg.MOUSEBUTTONDOWN:
@@ -69,7 +75,7 @@ def onClickEye():
 		SoundManager.play_sound('scream_man')
 	elif room_id == 3:
 		SoundManager.play_sound('scream_woman', 0.1)
-		SoundManager.stop_sound('crying_1', 0.1)
+		SoundManager.stop_sound('crying_1')
 
 	SceneManager.getCurrentScene().dead=True
 
@@ -188,6 +194,9 @@ class DoorScene(Scene):
 	
 
 	def render(self, window: pg.Surface):
+		global alpha
+		global running
+		global fade_surface
 
 		for image, imageRect in zip(self.images, self.imageRects):
 			window.blit(image, imageRect)
@@ -199,3 +208,9 @@ class DoorScene(Scene):
 			window.blit(DoorScene.eyes[self.index], DoorScene.eyes_rect[self.index])
 		else:
 			window.blit(self.eye_dead, self.eye_dead_rect)
+			alpha += 5  # Increase alpha value for the fade effect
+			if alpha >= 255:
+				alpha = 255
+				running = False  # Stop the loop when fade is complete
+			fade_surface.set_alpha(alpha)  # Apply the updated alpha to the surface
+			window.blit(fade_surface, (0, 0))  # Draw the fade surface on the screen
