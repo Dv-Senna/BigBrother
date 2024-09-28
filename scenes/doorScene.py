@@ -2,6 +2,7 @@ from typing import Callable
 import pygame as pg
 from sceneManager import *
 from eventManager import *
+from storyManager import StoryManager
 import config
 import random
 
@@ -42,9 +43,11 @@ def onClickDoor():
 	if room_id == 0:
 		print('Clicked on room 103, opens')
 		SceneManager.setCurrentScene(f'openDoorScene{SceneManager.getCurrentSceneName()[-1]}')
+		StoryManager.selectDialog("0")
 	elif room_id == 1:
 		print('Clicked on room 104, opens')
 		SceneManager.setCurrentScene(f'openDoorScene{SceneManager.getCurrentSceneName()[-1]}')
+		StoryManager.selectDialog("0")
 	elif room_id == 2:
 		print('Clicked on room 105, nothing happens')
 		pass

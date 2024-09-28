@@ -5,6 +5,8 @@ from eventManager import *
 from storyManager import StoryManager
 import config
 
+firstInterupt = True
+
 def check_collide(rects, links, mouse):
 	collide = False
 	for rect, link in zip(rects, links):
@@ -47,6 +49,7 @@ class LogScene(Scene):
 		self.typewriters = typewriters
 
 	def generateTypewriters(self):
+		global firstInterupt
 		door_id = int(SceneManager.getCurrentSceneName()[-1])
 
 		if door_id == 2:
@@ -61,8 +64,9 @@ class LogScene(Scene):
 		for i, text in enumerate(self.texts):
 			if i != 0:
 				wait_before += self.speed * len(self.texts[i-1]) * 3 + 200
-			if i == len(self.texts) -1 and door_id == 2:
+			if i == len(self.texts) -1 and door_id == 2 and firstInterupt:
 				on_finish = special_interupt
+				firstInterupt = False
 			else:
 				on_finish = lambda: print('abc')
 			self.logs_link.append(text)
