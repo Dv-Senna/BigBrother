@@ -147,7 +147,7 @@ def main():
 				if StoryManager.currentPerson != "":
 					logs = []
 					for log in StoryManager.getLog():
-						logs.append(f"{log["start"]} - {log["end"]} : {log["text"]}")
+						logs.append(f"{log['start']} - {log['end']} : {log['text']}")
 					SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time(), logs)
 			else:
 				SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time())
