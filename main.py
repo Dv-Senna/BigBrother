@@ -100,6 +100,8 @@ def main():
 		if not EventManager.update():
 			return
 
+		print(SceneManager.currentScene)
+
 		# update section
 		SceneManager.update(fpsClock.get_time())
 
