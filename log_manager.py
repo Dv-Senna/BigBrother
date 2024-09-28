@@ -31,7 +31,7 @@ class Typewriter:
             if self.current_index < len(self.text):
                 self.current_index += 1
             else: # If we want it to disappear
-                #self.done = True
+                self.done = True
                 pass
     
     def drawable(self):
