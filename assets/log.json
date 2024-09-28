@@ -130,7 +130,78 @@
 		}
 	],
 	"105": [
-	],
-	"106": [
-	]
+    {
+        "id": "1",
+        "start": "08:00",
+        "end": "08:15",
+        "text": "wakes up and makes the bed",
+        "dialog": "1"
+    },
+    {
+        "id": "2",
+        "start": "08:16",
+        "end": "08:30",
+        "text": "goes for a morning walk",
+        "dialog": "1"
+    },
+    {
+        "id": "3",
+        "start": "08:31",
+        "end": "08:50",
+        "text": "prepares and has breakfast, toast and jam",
+        "dialog": "1"
+    },
+    {
+        "id": "4",
+        "start": "09:00",
+        "end": "09:20",
+        "text": "reads the news online",
+        "dialog": "1"
+    },
+    {
+        "id": "5",
+        "start": "09:21",
+        "end": "09:35",
+        "text": "does some light cleaning in the living room",
+        "dialog": "1"
+    }
+],
+"106": [
+    {
+        "id": "1",
+        "start": "08:00",
+        "end": "08:15",
+        "text": "wakes up and stretches",
+        "dialog": "1"
+    },
+    {
+        "id": "2",
+        "start": "08:16",
+        "end": "08:30",
+        "text": "takes a quick shower",
+        "dialog": "1"
+    },
+    {
+        "id": "3",
+        "start": "08:31",
+        "end": "08:50",
+        "text": "brews coffee and enjoys a cup",
+        "dialog": "1"
+    },
+    {
+        "id": "4",
+        "start": "09:00",
+        "end": "09:20",
+        "text": "feeds the pet",
+        "dialog": "1"
+    },
+    {
+        "id": "5",
+        "start": "09:21",
+        "end": "09:40",
+        "text": "organizes the desk and plans the day",
+        "dialog": "1"
+    }
+]
+
 }
