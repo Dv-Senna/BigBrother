@@ -63,17 +63,17 @@ def main():
 
 	
 	doorScenes = [
-		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, False, True),
-		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, True),
-		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, True),
-		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, False),
+		DoorScene([load_sprite("assets/images/scenes/Scene01Close Full_2k_1k.png")], changeCurrentDoor, False, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene02Close Full_2k_1k.png")], changeCurrentDoor, True, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene03Close Full_2k_1k.png")], changeCurrentDoor, True, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene04Close Full_2k_1k.png")], changeCurrentDoor, True, False),
 	]
 
 	openDoorScenes = [
-		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "103"),
-		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "104"),
-		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "105"),
-		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "106"),
+		OpenDoorScene(pg.image.load("assets/images/scenes/Scene01Open Full_2k_1k.png"), "103"),
+		OpenDoorScene(pg.image.load("assets/images/scenes/Scene02Open Full_2k_1k.png"), "104"),
+		OpenDoorScene(pg.image.load("assets/images/scenes/Scene03Open Full_2k_1k.png"), "105"),
+		OpenDoorScene(pg.image.load("assets/images/scenes/Scene04Close Full_2k_1k.png"), "106"),
 	]
 
 	logScenes = [
