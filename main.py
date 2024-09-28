@@ -1,4 +1,5 @@
 from sceneManager import *
+import pygame as pg
 from DialogManager import DialogManager
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
@@ -16,41 +17,23 @@ class SceneNames:
 
 currentDoor = 0
 DOOR_COUNT = 0
+from DialogManager import DialogManager
 
 def init_dialog(window, initial_text, background_img, fontUsed):
     return DialogManager(window, background_img, 20, initial_text, fontUsed)
 
-def changeCurrentDoor(goLeft: bool) -> int:
-	global currentDoor
-	global DOOR_COUNT
-
-	if goLeft and currentDoor > 0:
-		currentDoor -= 1
-	elif not goLeft and currentDoor < DOOR_COUNT - 1:
-		currentDoor += 1
-	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
-
+def mainSceneUpdate():
+	return
+def mainSceneRender():
+	return
 
 def main():
-	global currentDoor
-	global DOOR_COUNT
-
-	doorScenes = [
-		DoorScene(pg.image.load("assets/images/scenes/background1.jpg"), changeCurrentDoor, False, True),
-		DoorScene(pg.image.load("assets/images/scenes/background2.jpg"), changeCurrentDoor, True, True),
-		DoorScene(pg.image.load("assets/images/scenes/background3.jpg"), changeCurrentDoor, True, False),
-	]
-	DOOR_COUNT = len(doorScenes)
-	for i in range(0, len(doorScenes)):
-		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
-
-	pg.font.init()
-	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
-
-	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
+	mainScene = Scene(mainSceneUpdate, mainSceneRender)
+	SceneManager.addScene("main", mainScene)
 
 	fpsClock = pg.time.Clock()
-	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
+	pg.font.init()
+	window = pg.display.set_mode((16*70, 9*70))
 	pg.display.set_caption("BigBrother")
 
 	background_img = pg.image.load(
@@ -65,6 +48,15 @@ def main():
 
 	bottomDialogBox = init_dialog(window, testText, background_img, font)
 
+	IMG = pg.image.load("test.png")
+	_dialogManagertest = DialogManager(window, IMG, 25)
+	testText = """"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"
+	"""
+	_dialogManagertest.DisplayText(testText)
+	# _dialogManagertest.UpdateText("TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST")
+	# _dialogManagertest.ShowDialog()
+	_dialogManagertest.HideDialog()
+	_dialogManagertest.ShowDialog()
 	while True:
 		for event in pg.event.get():
 			if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
@@ -86,21 +78,17 @@ def main():
 				if event.key == pg.K_k:
 					bottomDialogBox.changeText("Test Test Test Test Test Test Test Test Test Test Test Test ")
 
+		for event in pg.event.get():
+			if event.type == pg.QUIT:
+				return
+
 		# update section
-		SceneManager.update()
-		SceneManager.getCurrentScene().update(fpsClock.get_time())
+		SceneManager.getCurrentScene().updateCallback()
 
 		# draw section
 		window.fill((0, 0, 0))
 
-		SceneManager.getCurrentScene().render(window)
-
-		bottomDialogBox.display()
-
-		#render text
-		for typewriter in typewriters:
-			typewriter.update()
-			typewriter.draw(window)
+		SceneManager.getCurrentScene().renderCallback()
 
 		pg.display.update()
 		fpsClock.tick(60)
