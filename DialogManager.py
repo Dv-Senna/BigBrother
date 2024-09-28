@@ -1,65 +1,72 @@
-import pygame as pg
+from log_manager import Typewriter
 
 class DialogManager:
-    def __init__(self, window, backgroundImg, margin, text):
+    def __init__(self, window, backgroundImg, margin, text, font):
         self._window = window
         self._backgroundImg = backgroundImg
         self._margin = margin
-        self._text = text  # Stocker le texte
-        self._visible = True  # Initialiser la visibilité à False
-        self.set_text()
+        self._font = font  # Stocker la police
+        self._typewriters = []
+        self._imageLocation = (0,0)
+        self.text = self.wrap_text(self._backgroundImg.get_width() - (self._margin*2), text)  # Stocker le texte
+        self._isIMGAdded = False
+        self._img_rect = None
+        self._visible = False  # Initialiser la visibilité à False
 
-    def wrap_text(self, font, max_width):
+    def wrap_text(self, max_width, textToClear):
         """Divise le texte en plusieurs lignes si nécessaire."""
-        words = self._text.split(' ')
+        words = textToClear.split(' ')
         lines = []
         current_line = ""
 
         for word in words:
             test_line = current_line + word + ' '
-            if font.size(test_line)[0] <= max_width:
+            if self._font.size(test_line)[0] <= max_width:
                 current_line = test_line
             else:
                 lines.append(current_line)
                 current_line = word + ' '
-
         lines.append(current_line)  # Ajouter la dernière ligne
         return lines
 
     def set_text(self):
-        if not self._visible:
-            return  # Ne rien afficher si la boîte de dialogue n'est pas visible
-
         # Blitter l'image de fond centrée en bas avec une marge
         img_rect = self._backgroundImg.get_rect(center=(self._window.get_width() // 2, self._window.get_height() - self._margin))
         img_rect.bottom = self._window.get_height() - self._margin  # Ajuste pour que l'image soit en bas avec la marge
         self._window.blit(self._backgroundImg, img_rect.topleft)
 
-        # Blitter le texte centré dans l'image
-        font = pg.font.Font(None, 36)  # Police par défaut, taille 36
-        text_lines = self.wrap_text(font, img_rect.width - 20)  # 20 pixels de marge
+        print(self.text)
 
-        # Calculer la position de départ pour centrer verticalement le texte
-        total_height = sum(font.get_height() for _ in text_lines)
-        start_y = img_rect.centery - total_height // 2
-
-        for line in text_lines:
-            text_surface = font.render(line, True, (255, 255, 255))  # Texte en blanc
-            text_rect = text_surface.get_rect(center=(img_rect.centerx, start_y))
-            self._window.blit(text_surface, text_rect)
-            start_y += font.get_height()  # Déplacer vers la ligne suivante
 
     def toggle_visibility(self):
         """Basculer la visibilité de la boîte de dialogue."""
-        self.visible = not self._visible
+        self._visible = not self._visible
+
+    def hide(self):
+        """Cacher la boîte de dialogue."""
+        self._visible = False
 
     def display(self):
         """Affiche la fenêtre si la boîte de dialogue est visible."""
+        if not self._isIMGAdded:
+            self.set_text()
+            self._isIMGAdded = True
+            # Calculer la position pour centrer l'image en bas avec la marge
+            self._img_rect = self._backgroundImg.get_rect(
+                center=(self._window.get_width() // 2, self._window.get_height() - self._margin))
+            self._img_rect.bottom = self._window.get_height() - self._margin  # Ajuste pour que l'image soit en bas avec la marge
+            idLine = 0
+            for line in self.text:
+                self._typewriters.append(Typewriter(line, self._font, (self._img_rect.topleft[0], self._img_rect.topleft[1] + (self._font.size(line)[1] * idLine)), wait_before_start=(50000*idLine)))
+                idLine+=1
+
         if self._visible:
-            pg.display.flip()  # Met à jour l'affichage
+            self._window.blit(self._backgroundImg, self._img_rect.topleft)  # Blitter l'image
+            for typewriter in self._typewriters:
+                typewriter.update()
+                typewriter.draw(self._window)
 
-    def hide(self):
-        self._backgroundImg.fill((0, 0, 0, 0))
+    def changeText(self, newText):
+        self.text = self.wrap_text(self._backgroundImg.get_width() - (self._margin*2), newText)  # Stocker le texte
+        self._typewriters = []
 
-    def getVisiblity(self):
-        return self._visible
