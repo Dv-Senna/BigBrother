@@ -5,6 +5,7 @@ from eventManager import *
 from storyManager import StoryManager
 import config
 import random
+import glob
 
 isLeftArrowButtonPress = False
 isRightArrowButtonPress = False
@@ -58,7 +59,7 @@ def onClickDoor():
 
 
 def onClickEye():
-	pass
+	SceneManager.getCurrentScene().dead=True
 
 def onClickLogs():
 	SceneManager.setCurrentScene(f'logScene{SceneManager.getCurrentSceneName()[-1]}')
@@ -66,13 +67,35 @@ def onClickLogs():
 
 
 
+
 class DoorScene(Scene):
+	isSetup = False
+	eyes = []
+	eyes_rect = []
+
+	@staticmethod
+	def setup():
+		
+
+		for path in glob.glob("assets/eye/*"):
+			DoorScene.eyes.append(pg.image.load(path))
+			DoorScene.eyes_rect.append(DoorScene.eyes[-1].get_rect())
+
+
 	def __init__(self, images: list, doorSwitchCallback: Callable[[bool], None], hasLeftArrow: bool, hasRightArrow: bool):
+		if not DoorScene.isSetup:
+			DoorScene.setup()
+		
 		self.images = images
 		self.imageRects = [image.get_rect() for image in self.images]
+		
 		self.doorSwitchCallback = doorSwitchCallback
 		self.hasLeftArrow = hasLeftArrow
 		self.hasRightArrow = hasRightArrow
+
+		self.dead = False
+		self.eye_dead = pg.image.load('assets/images/scenes/SceneX-CloseEye_1k.png')
+		self.eye_dead_rect = self.eye_dead.get_rect()
 
 		if hasLeftArrow:
 			self.leftArrowImage = pg.image.load("assets/images/utils/arrow_left.png")
@@ -90,6 +113,9 @@ class DoorScene(Scene):
 		self.logs = pg.Rect(1100, 500, 700, 560)
 		self.door = pg.Rect(150, 100, 800, 800)
 
+		self.index = 0
+		self.timer = 0
+		
 
 	def mount(self):
 		if self.hasLeftArrow:
@@ -127,6 +153,10 @@ class DoorScene(Scene):
 
 
 	def update(self, dt: int):
+
+		FRAME_DURATION = 150
+		self.timer += dt
+
 		mouse_pos = pg.mouse.get_pos()
 
 		if self.eye.collidepoint(mouse_pos):
@@ -138,11 +168,22 @@ class DoorScene(Scene):
 		else:
 			pg.mouse.set_cursor(pg.SYSTEM_CURSOR_ARROW)
 
+		if self.timer > FRAME_DURATION:
+			self.timer = 0
+			self.index += 1
+			if self.index == len(DoorScene.eyes):
+				self.index = 0
+	
 
 	def render(self, window: pg.Surface):
+
 		for image, imageRect in zip(self.images, self.imageRects):
 			window.blit(image, imageRect)
 		if self.hasLeftArrow:
 			window.blit(self.leftArrowImage, self.leftArrowCollidebox)
 		if self.hasRightArrow:
 			window.blit(self.rightArrowImage, self.rightArrowCollidebox)
+		if not self.dead:
+			window.blit(DoorScene.eyes[self.index], DoorScene.eyes_rect[self.index])
+		else:
+			window.blit(self.eye_dead, self.eye_dead_rect)
