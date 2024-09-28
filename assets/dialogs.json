@@ -1,6 +1,10 @@
 {
 	"103": [
 		{
+			"id": "0",
+			"text": "..."
+		},
+		{
 			"id": "1",
 			"text": "\t- I have things to do outside the appartment complexe, are we done ?"
 		},
@@ -19,6 +23,10 @@
 	],
 	"104": [
 		{
+			"id": "0",
+			"text": "- Ask the eye"
+		},
+		{
 			"id": "1",
 			"text": "\t- I work in construction, not that you would know anything about your residents, warden"
 		},
@@ -33,11 +41,19 @@
 	],
 	"105": [
 		{
+			"id": "0",
+			"text": "- Im busy"
+		},
+		{
 			"id": "1",
 			"text": "..."
 		}
 	],
 	"106": [
+		{
+			"id": "0",
+			"text": "..."
+		},
 		{
 			"id": "1",
 			"text": "..."
