@@ -4,6 +4,10 @@ import pygame as pg
 from log_manager import Typewriter
 from sceneManager import SceneManager
 from sounds_manager import SoundManager
+from sceneManager import SceneManager
+from sounds_manager import SoundManager
+
+typewriters_screamer = []
 
 class EventManager:
 	eventTypes: dict[str, Callable[[pg.event.Event], bool]] = {}
@@ -117,7 +121,10 @@ def displaySpecialLog(typewriters, texts, font, scene, delay_between_each_line=5
 			on_finish=on_finish))
 
 def open_scene_special(scene):
+	global typewriters_screamer
+	typewriters_screamer = []
 	SceneManager.setCurrentScene(scene)
+
 
 if __name__ == "__main__":
 	pg.init()

@@ -26,6 +26,7 @@ DOOR_COUNT = 0
 SOUND_FREQ = 20 * 1000 # random sound approx each X sec.
 random_sound_wait = 0
 
+
 def changeCurrentDoor(goLeft: bool) -> int:
 	global currentDoor
 	global DOOR_COUNT
@@ -40,6 +41,7 @@ def changeCurrentDoor(goLeft: bool) -> int:
 def main():
 	global currentDoor
 	global DOOR_COUNT
+	global typewriters_screamer
 
 	doorScenes = [
 		DoorScene(pg.image.load("assets/images/scenes/background1.jpg"), changeCurrentDoor, False, True),
@@ -93,7 +95,7 @@ def main():
 	callbackHandlerH = EventManager.registerCallback("key_h", 
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
 	
-	# displaySpecialLog(typewriters, texts_myst, font=font, delay_between_each_line=100, speed=1, scene='openDoorScene1')
+	# displaySpecialLog(typewriters_screamer, texts_myst, font=font, delay_between_each_line=100, speed=1, scene='openDoorScene1')
 
 
 	while True:
@@ -111,9 +113,9 @@ def main():
 		SceneManager.render(window)
 
 		# render text
-		for typewriter in typewriters:
-			typewriter.update()
-			typewriter.draw(window)
+		for typewriter_screamer in typewriters_screamer:
+			typewriter_screamer.update()
+			typewriter_screamer.draw(window)
 
 		now = pg.time.get_ticks()
 
