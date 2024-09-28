@@ -19,6 +19,7 @@ class Scene:
 		pass
 
 
+
 class SceneManager:
 	currentScene: str = ""
 	targetScene: str = ""
@@ -60,8 +61,6 @@ class SceneManager:
 
 	@staticmethod
 	def update(dt: int):
-		if SceneManager.currentScene != "":
-			SceneManager.scenes[SceneManager.currentScene].update(dt)
 
 		if SceneManager.targetScene == "":
 			return

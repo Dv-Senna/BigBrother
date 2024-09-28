@@ -28,7 +28,7 @@ SOUND_FREQ = 20 * 1000 # random sound approx each X sec.
 random_sound_wait = 0
 
 def init_dialog(window, initial_text, background_img, fontUsed, Location=(-1,-1)):
-    return DialogManager(window, background_img, 20, initial_text, fontUsed, Location)
+    return DialogManager(background_img, 20, initial_text, fontUsed, Location)
 
 def mainSceneUpdate():
 	return
@@ -52,6 +52,12 @@ def main():
 	global DOOR_COUNT
 	global typewriters_screamer
 
+	pg.font.init()
+	font = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 24)
+
+
+	StoryManager.setup()
+
 	doorScenes = [
 		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, False, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, True),
@@ -59,15 +65,15 @@ def main():
 	]
 
 	openDoorScenes = [
-		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
-		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
-		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "103"),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "104"),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg"), "105"),
 	]
 
 	logScenes = [
-		LogScene(pg.image.load("assets/images/scenes/log.png", "103")),
-		LogScene(pg.image.load("assets/images/scenes/log.png", "104")),
-		LogScene(pg.image.load("assets/images/scenes/log.png", "105")),
+		LogScene(pg.image.load("assets/images/scenes/log.png"), "103", font, 1),
+		LogScene(pg.image.load("assets/images/scenes/log.png"), "104", font, 1),
+		LogScene(pg.image.load("assets/images/scenes/log.png"), "105", font, 1),
 	]
 
 	DOOR_COUNT = len(doorScenes)
@@ -84,7 +90,8 @@ def main():
 
 	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
 
-	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
+#	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
+	SceneManager.setCurrentScene(f"{SceneNames.OPEN_DOOR}0")
 
 
 	fpsClock = pg.time.Clock()
@@ -92,8 +99,6 @@ def main():
 	pg.display.set_caption("BigBrother")
 
 	# Fonts
-	pg.font.init()
-	font = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 12)
 
 	fontForNPC = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 20)
 
@@ -124,14 +129,25 @@ def main():
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
 
 	# Story
-	StoryManager.setup()
-	StoryManager.selectPerson("101")
 
 
 	while True:
 		if not EventManager.update():
 			return
 		# update section
+		if SceneManager.currentScene != "":
+			if isinstance(SceneManager.scenes[SceneManager.currentScene], OpenDoorScene):
+				if StoryManager.currentPerson != "":
+					StoryManager.selectDialog("1")
+					SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time(), StoryManager.getCurrentDialog()["text"])
+			elif isinstance(SceneManager.scenes[SceneManager.currentScene], LogScene):
+				if StoryManager.currentPerson != "":
+					logs = []
+					for log in StoryManager.getLog():
+						logs.append(log["text"])
+					SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time(), logs)
+			else:
+				SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time())
 		SceneManager.update(fpsClock.get_time())
 
 		# draw section
@@ -157,7 +173,7 @@ def main():
 		blackScreenSurface.set_alpha(SceneManager.blackScreenOpacity)
 		window.blit(blackScreenSurface, blackScreenSurface.get_rect())
 
-		bottomDialogBox.display()
+		bottomDialogBox.display(window)
 		#render text
 		for typewriter in typewriters:
 			typewriter.update()

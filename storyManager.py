@@ -5,15 +5,12 @@ from typing import List
 class StoryManager:
 	currentPerson = ""
 	currentDialogID = ""
-	story = {}
 	dialogs = {}
 	logs = {}
 	alreadyPlayedDialog: dict[str, List[str]] = {}
 	alreadyPlayedLog: dict[str, List[str]] = {}
 
 	def setup():
-		with open("assets/story.json", "r") as storyFile:
-			StoryManager.story = json.load(storyFile)
 		with open("assets/dialogs.json", "r") as dialogsFile:
 			StoryManager.dialogs = json.load(dialogsFile)
 		with open("assets/log.json", "r") as logFile:
@@ -58,3 +55,5 @@ class StoryManager:
 			return dialog
 		return {}
 	
+	def getLog():
+		return StoryManager.logs[StoryManager.currentPerson]
