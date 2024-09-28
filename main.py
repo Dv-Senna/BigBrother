@@ -70,13 +70,7 @@ def main():
 
 	texts += 10 * ['']
 
-	EventManager.addEventType("key_g", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_g)
-
-	callbackHandlerG = EventManager.registerCallback("key_g", 
-												 lambda: startLogHandler(typewriters, texts, font))
-
 	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
-
 	callbackHandlerH = EventManager.registerCallback("key_h", 
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
 
