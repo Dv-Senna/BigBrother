@@ -5,6 +5,7 @@ from scenes.doorScene import *
 from scenes.mainMenuScene import *
 from log_manager import Typewriter
 from sounds_manager import SoundManager
+import random
 
 class SceneNames:
 	DOOR = "doorScene"
@@ -16,6 +17,8 @@ class SceneNames:
 currentDoor = 0
 DOOR_COUNT = 0
 
+SOUND_FREQ = 20 * 1000 # random sound approx each X sec.
+random_sound_wait = 0
 
 def changeCurrentDoor(goLeft: bool) -> int:
 	global currentDoor
@@ -57,6 +60,9 @@ def main():
 	SoundManager.load_all()
 	SoundManager.play_ambient('outdoor_subsurb_birds', 4)
 
+	last_update_sound = pg.time.get_ticks()
+	random_sound_wait = SOUND_FREQ * (1 + random.random())
+
 	typewriters = []
 	texts = []
 	with open('example_text.txt') as f:
@@ -91,6 +97,14 @@ def main():
 		for typewriter in typewriters:
 			typewriter.update()
 			typewriter.draw(window)
+
+		now = pg.time.get_ticks()
+
+		if now - last_update_sound > random_sound_wait:
+			print('test')
+			SoundManager.play_ambient_small(0.1)
+			random_sound_wait = SOUND_FREQ * (1 + random.random())
+			last_update_sound = now
 
 		pg.display.update()
 		fpsClock.tick(60)

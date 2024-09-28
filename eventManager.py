@@ -79,16 +79,19 @@ def startLogHandler(typewriters, texts, font):
 		wait_before_start = 0))
 	
 def displayAllLogs(typewriters, texts, font, delay_between_each_line=5000):
-	print('deee')
+	index_with_noise = 0 # get the longest sentence
+	for i, text in enumerate(texts):
+		if len(text) > len(texts[index_with_noise]):
+			index_with_noise = i
+	print(index_with_noise)
 	for i, text in enumerate(texts):
 		typewriters.append(Typewriter(
 			text, 
 			font, 
 			(300, 70 + 20 * len(typewriters)), 
 			#speed=50 - i / len(texts),
-			silent=True,
+			silent=i != index_with_noise,
 			wait_before_start = i * delay_between_each_line)),
-	typewriters[len(typewriters)-1].silent = False
 if __name__ == "__main__":
 	pg.init()
 

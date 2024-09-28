@@ -32,12 +32,14 @@ class Typewriter:
         if self.drawable() and delay > self.speed:
             self.last_update_time = now
             if self.current_index < len(self.text):
+                if self.current_index == 0:
+                    SoundManager.play_sound('GUI Sound Effects_038', 0.02)
                 self.current_index += 1
                 if not self.silent and self.text[self.current_index - 1] != ' ':
                     SoundManager.play_sound('TF_GUI-Sound-7', 0.1)
 
             else: # If we want it to disappear
-                #self.done = True
+                self.done = True
                 pass
     
     def drawable(self):
