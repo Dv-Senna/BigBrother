@@ -11,6 +11,14 @@ def check_collide(rects, links, mouse):
 		if rect.collidepoint(mouse.get_pos()):
 			collide = True
 			print(link)
+			currentPerson = int(SceneManager.getCurrentSceneName()[-1])
+			SceneManager.setCurrentScene(f"openDoorScene{currentPerson}")
+			for log in StoryManager.logs[f"{103 + currentPerson}"]:
+				logContent = f"{log["start"]} - {log["end"]} : {log["text"]}"
+				if logContent == link:
+					StoryManager.selectDialog(log["dialog"])
+					print(log)
+#			StoryManager.selectDialog()
 	return collide
 
 
@@ -63,8 +71,8 @@ class LogScene(Scene):
 				wait_before_start = wait_before,
 				on_finish=on_finish))
 			
-		EventManager.addEventType(f"logs_{i}", lambda event: event.type==pg.MOUSEBUTTONDOWN and check_collide(self.logs_rect, self.logs_link, pg.mouse))
-		EventManager.registerCallback(f"logs_{i}", lambda: None)
+		EventManager.addEventType(f"logs_0", lambda event: event.type==pg.MOUSEBUTTONDOWN and check_collide(self.logs_rect, self.logs_link, pg.mouse))
+		EventManager.registerCallback(f"logs_0", lambda: None)
 
 	def mount(self):
 
@@ -77,8 +85,7 @@ class LogScene(Scene):
 
 	def unmount(self):
 
-		for i in range(self.logs_rect):
-			EventManager.removeEventType(f"logs_{i}")
+		EventManager.removeEventType(f"logs_0")
 
 
 		self.typewriters = []

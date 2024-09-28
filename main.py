@@ -98,7 +98,7 @@ def main():
 	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
 
 #	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
-	SceneManager.setCurrentScene(f"{SceneNames.OPEN_DOOR}0")
+	SceneManager.setCurrentScene(f"{SceneNames.DOOR}0")
 
 
 	fpsClock = pg.time.Clock()
@@ -142,13 +142,12 @@ def main():
 		if SceneManager.currentScene != "":
 			if isinstance(SceneManager.scenes[SceneManager.currentScene], OpenDoorScene):
 				if StoryManager.currentPerson != "":
-					StoryManager.selectDialog("1")
 					SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time(), StoryManager.getCurrentDialog()["text"])
 			elif isinstance(SceneManager.scenes[SceneManager.currentScene], LogScene):
 				if StoryManager.currentPerson != "":
 					logs = []
 					for log in StoryManager.getLog():
-						logs.append(log["text"])
+						logs.append(f"{log["start"]} - {log["end"]} : {log["text"]}")
 					SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time(), logs)
 			else:
 				SceneManager.scenes[SceneManager.currentScene].update(fpsClock.get_time())

@@ -23,15 +23,7 @@ class StoryManager:
 		StoryManager.currentPerson = person
 
 	def selectDialog(dialog: str):
-		for dialogObject in StoryManager.dialogs[StoryManager.currentPerson]:
-			if dialogObject["id"] == dialog:
-				StoryManager.currentDialogID = dialog
-				if StoryManager.currentPerson not in StoryManager.alreadyPlayedDialog:
-					StoryManager.alreadyPlayedDialog[StoryManager.currentPerson] = []
-				StoryManager.alreadyPlayedDialog[StoryManager.currentPerson].append(StoryManager.currentDialogID)
-				return
-
-		print(f"\033[31mInvalid dialog id '{dialog}'\033[m")
+		StoryManager.currentDialogID = dialog
 		return
 
 	def getAvailableLogs():
