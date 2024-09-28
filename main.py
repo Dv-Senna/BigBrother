@@ -60,8 +60,8 @@ def main():
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
 	pg.display.set_caption("BigBrother")
-	IMG = pg.image.load("test.png")
-	_dialogManagertest = DialogManager(window, IMG, 25)
+	background_img = pg.image.load("test.png")
+
 	testText = """"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"
 	"""
 	_dialogManagertest.DisplayText(testText)
@@ -91,6 +91,13 @@ def main():
 	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
 	callbackHandlerH = EventManager.registerCallback("key_h", 
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
+
+	dialog_manager = DialogManager(window, background_img, 20,  testText)
+	dialog_manager.display()
+	dialog_manager.hide()
+	print(dialog_manager.getVisiblity())
+	# dialog_manager.set_text(testText)
+	# dialog_manager.toggle_visibility()
 
 	while True:
 		if not EventManager.update():
