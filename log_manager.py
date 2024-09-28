@@ -1,5 +1,7 @@
 import pygame
 
+from sounds_manager import SoundManager
+
 # Display text function
 # Define colors
 WHITE = (255, 255, 255)
@@ -13,7 +15,7 @@ def clear_screen(window):
 
 # Typewriter effect using time tracking (non-blocking)
 class Typewriter:
-    def __init__(self, text, font, pos, speed=50, wait_before_start=0):
+    def __init__(self, text, font, pos, speed=50, wait_before_start=0, silent=False):
         self.text = text
         self.pos = pos
         self.font = font
@@ -22,6 +24,7 @@ class Typewriter:
         self.current_index = 0
         self.last_update_time = pygame.time.get_ticks()
         self.done = False
+        self.silent = silent
 
     def update(self):
         now = pygame.time.get_ticks()
@@ -29,9 +32,14 @@ class Typewriter:
         if self.drawable() and delay > self.speed:
             self.last_update_time = now
             if self.current_index < len(self.text):
+                if self.current_index == 0:
+                    SoundManager.play_sound('GUI Sound Effects_038', 0.02)
                 self.current_index += 1
+                if not self.silent and self.text[self.current_index - 1] != ' ':
+                    SoundManager.play_sound('TF_GUI-Sound-7', 0.1)
+
             else: # If we want it to disappear
-                #self.done = True
+                self.done = True
                 pass
     
     def drawable(self):
@@ -39,15 +47,13 @@ class Typewriter:
 
         delay = now - self.last_update_time
         if delay < self.wait:
-            self.wait -= delay
             return False
         else:
-            delay -= self.wait
             self.wait = 0
             return True
 
 
     def draw(self, surface):
-        if self.drawable():
-            text_surface = self.font.render(self.text[:self.current_index], True, WHITE)
-            surface.blit(text_surface, self.pos)
+        #if self.drawable():
+        text_surface = self.font.render(self.text[:self.current_index], True, WHITE)
+        surface.blit(text_surface, self.pos)

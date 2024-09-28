@@ -3,17 +3,23 @@ from pygame import mixer
 import os
 import glob
 import sys
+import random
 
 AUDIO_FILE_PATH = os.path.join('assets', 'audio')
 
 class SoundManager:
     sounds = {}
     ambient_sounds = {}
+    ambient_small_sounds = {}
     current_ambient = None
 
     @staticmethod
     def load_all():
         pygame.mixer.init()
+        #print(mixer.get_num_channels())
+        #
+        mixer.set_num_channels(30)
+
         all_audios = (glob.glob(os.path.join(AUDIO_FILE_PATH, "**/*.wav"), recursive=True))
         n = len(all_audios)
 
@@ -24,26 +30,39 @@ class SoundManager:
             name = audio_path.split('/')[-1].split('.')[0]
             print(f'[SOUND-MANAGER] Loading sound {name[:10]:>10} ({100*perc:.0f}%)', end='\r')
             ambient = 'ambient' in audio_path
-            SoundManager.load_sound(name, audio_path, ambient=ambient)
+            random = 'small' in audio_path
+            SoundManager.load_sound(name, audio_path, ambient=ambient, random=random)
 
         print(f'[SOUND-MANAGER] {n} sound loaded                                       ') # space to remove previous
 
     @staticmethod
-    def load_sound(name, filepath, ambient=False):
+    def load_sound(name, filepath, ambient=False, random=False):
         """Load a sound effect or ambient sound."""
         sound = mixer.Sound(filepath)
         if ambient:
-            SoundManager.ambient_sounds[name] = sound
+            if random:
+                SoundManager.ambient_small_sounds[name] = sound
+            else:
+                SoundManager.ambient_sounds[name] = sound
         else:
             SoundManager.sounds[name] = sound
 
     @staticmethod
-    def play_sound(name, loops=0):
+    def play_sound(name, volume=0.5):
         """Play a sound effect."""
         if name in SoundManager.sounds:
-            SoundManager.sounds[name].play(loops)
+            SoundManager.sounds[name].play(1)
+            SoundManager.set_volume(name, volume)
+
         else:
             print(f"Sound {name} not found.")
+
+    @staticmethod
+    def play_ambient_small(volume=0.5):
+        name = random.choice(list(SoundManager.ambient_small_sounds.keys()))
+        SoundManager.ambient_small_sounds[name].play(1)
+        SoundManager.ambient_small_sounds[name].set_volume(volume)
+
 
     @staticmethod
     def play_ambient(name, volume=0.5):
