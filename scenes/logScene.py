@@ -18,9 +18,9 @@ class LogScene(Scene):
 		self.typewriters = typewriters
 
 	def mount(self):
-
-		EventManager.addEventType("back to door", lambda event: event.type==pg.KEYDOWN and )
-		EventManager.registerCallback("back to door", )
+		pass
+	#	EventManager.addEventType("back to door", lambda event: event.type==pg.KEYDOWN and event.key == pg.K_ESCAPE)
+	#	EventManager.registerCallback("back to door", )
 
 	def unmount(self):
 
