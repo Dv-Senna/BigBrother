@@ -114,7 +114,7 @@ def displaySpecialLog(typewriters, texts, font, scene, delay_between_each_line=5
 		typewriters.append(Typewriter(
 			text, 
 			font, 
-			(300, 70 + 20 * len(typewriters)), 
+			(300, 70 + 30 * len(typewriters)), 
 			speed=speed,
 			#silent=i != index_with_noise,
 			wait_before_start = wait_before,
