@@ -4,6 +4,7 @@ from sceneManager import *
 from eventManager import *
 from storyManager import StoryManager
 import config
+from math import sin
 
 firstInterupt = True
 
@@ -36,6 +37,14 @@ class LogScene(Scene):
 	def __init__(self, image: pg.Surface, person: str, font, speed):
 		self.image = image
 		self.imageRect = self.image.get_rect()
+		self.wardenImage = pg.image.load("assets/images/scenes/Warden.png")
+		self.wardenImage.set_alpha(255 * 0.6)
+		self.wardenImageRect = self.wardenImage.get_rect()
+		self.wardenImageRect.x = config.WINDOW_WIDTH / 2 - self.wardenImageRect.w / 2
+		self.wardenImageRect.y = config.WINDOW_HEIGHT / 2 - self.wardenImageRect.h / 2 + 20
+		print(self.wardenImageRect)
+		self.wardenOffset = 0
+		self.timer = 0
 
 		self.person = person
 		self.texts = []
@@ -107,6 +116,9 @@ class LogScene(Scene):
 	def update(self, dt: int, texts):
 		mouse_pos = pg.mouse.get_pos()
 
+		self.timer += dt
+		self.wardenOffset = 7 * sin(self.timer * 0.001)
+
 		touch_one = False
 		for rect in self.logs_rect:
 			if rect.collidepoint(mouse_pos):
@@ -123,6 +135,9 @@ class LogScene(Scene):
 
 
 	def render(self, window: pg.Surface):
+		self.wardenImageRect.y += self.wardenOffset
+		window.blit(self.wardenImage, self.wardenImageRect)
+		self.wardenImageRect.y -= self.wardenOffset
 		window.blit(self.image, self.imageRect)
 
 		for rect in self.logs_rect:
