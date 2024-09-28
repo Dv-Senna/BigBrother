@@ -65,9 +65,9 @@ def main():
 	]
 
 	logScenes = [
-		LogScene(pg.image.load("assets/images/scenes/log.png")),
-		LogScene(pg.image.load("assets/images/scenes/log.png")),
-		LogScene(pg.image.load("assets/images/scenes/log.png")),
+		LogScene(pg.image.load("assets/images/scenes/log.png", "103")),
+		LogScene(pg.image.load("assets/images/scenes/log.png", "104")),
+		LogScene(pg.image.load("assets/images/scenes/log.png", "105")),
 	]
 
 	DOOR_COUNT = len(doorScenes)
