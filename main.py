@@ -48,8 +48,29 @@ def main():
 	global DOOR_COUNT
 	global typewriters_screamer
 
+	texts_103 = []
+	with open('assets/logs/logs_103.txt') as f:
+		texts_103 = f.read().split('\n')
+
+	texts_104 = []
+	with open('assets/logs/logs_104.txt') as f:
+		texts_104 = f.read().split('\n')
+
+	texts_105_1 = []
+	with open('assets/logs/logs_105.txt') as f:
+		texts_105_1 = f.read().split('\n')
+
+	texts_106 = []
+	with open('assets/logs/logs_106.txt') as f:
+		texts_106 = f.read().split('\n')
+	
+	# Fonts
+	pg.font.init()
+	font = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 24)
+	
 	doorScenes = [
 		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, False, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, False),
 	]
@@ -58,12 +79,14 @@ def main():
 		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
 		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
 		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
 	]
 
 	logScenes = [
-		LogScene(pg.image.load("assets/images/scenes/log.png")),
-		LogScene(pg.image.load("assets/images/scenes/log.png")),
-		LogScene(pg.image.load("assets/images/scenes/log.png")),
+		LogScene(pg.image.load("assets/images/scenes/log.png"), texts_103, font, 1),
+		LogScene(pg.image.load("assets/images/scenes/log.png"), texts_104, font, 1),
+		LogScene(pg.image.load("assets/images/scenes/log.png"), texts_105_1, font, 1),
+		LogScene(pg.image.load("assets/images/scenes/log.png"), texts_106, font, 1),
 	]
 
 	DOOR_COUNT = len(doorScenes)
@@ -87,9 +110,6 @@ def main():
 	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
 	pg.display.set_caption("BigBrother")
 
-	# Fonts
-	pg.font.init()
-	font = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 12)
 
 	# Sound
 	SoundManager.load_all()
@@ -99,9 +119,6 @@ def main():
 	random_sound_wait = SOUND_FREQ * (1 + random.random())
 
 	typewriters = []
-	texts = []
-	with open('example_text.txt') as f:
-		texts = f.read().split('\n')
 
 	with open('text_mysterious.txt') as f:
 		texts_myst = f.read().split('\n')

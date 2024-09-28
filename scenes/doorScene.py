@@ -37,7 +37,10 @@ def check_collide(rect, mouse):
 
 def onClickDoor():
 	SoundManager.play_sound(f'triKnock{random.randint(1, 12):02d}')
-	pass
+	accept = True # to change later depending on conditions
+
+	SceneManager.setCurrentScene(f'openDoorScene{SceneManager.getCurrentSceneName()[-1]}')
+
 
 def onClickEye():
 	pass

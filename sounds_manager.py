@@ -18,7 +18,7 @@ class SoundManager:
         pygame.mixer.init()
         #print(mixer.get_num_channels())
         #
-        mixer.set_num_channels(30)
+        mixer.set_num_channels(8)
 
         all_audios = (glob.glob(os.path.join(AUDIO_FILE_PATH, "**/*.wav"), recursive=True))
         n = len(all_audios)
@@ -71,6 +71,7 @@ class SoundManager:
         if name in SoundManager.ambient_sounds:
             current_ambient = SoundManager.ambient_sounds[name]
             current_ambient.set_volume(volume)
+            mixer.set_reserved(1)
             current_ambient.play(loops=-1)  # -1 means the sound will loop indefinitely
         else:
             print(f"Ambient sound {name} not found.")

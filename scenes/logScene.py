@@ -5,13 +5,16 @@ from eventManager import *
 import config
 
 def esc_key():
-	print('esc')
+	SceneManager.setCurrentScene(f'doorScene{SceneManager.getCurrentSceneName()[-1]}')
 
 class LogScene(Scene):
-	def __init__(self, image: pg.Surface):
+	def __init__(self, image: pg.Surface, texts, font, speed):
 		self.image = image
 		self.imageRect = self.image.get_rect()
 
+		self.texts = texts
+		self.font = font
+		self.speed = speed
 		self.typewriters = []
 
 	def set_typewriters(self, typewriters):
@@ -19,10 +22,31 @@ class LogScene(Scene):
 
 	def mount(self):
 
-		EventManager.addEventType("back to door", lambda event: event.type==pg.KEYDOWN and )
-		EventManager.registerCallback("back to door", )
+		self.typewriters = []
+
+		EventManager.addEventType("back to door", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE)
+		EventManager.registerCallback("back to door", esc_key)
+
+		index_with_noise = 0 # get the longest sentence
+		for i, text in enumerate(self.texts):
+			if len(text) > len(self.texts[index_with_noise]):
+				index_with_noise = i
+		print(index_with_noise)
+		wait_before = 0
+		for i, text in enumerate(self.texts):
+			if i != 0:
+				wait_before += self.speed * len(self.texts[i-1]) * 3 + 200
+			self.typewriters.append(Typewriter(
+				text, 
+				self.font, 
+				(580, 180 + 20 * len(self.typewriters)), 
+				speed=self.speed,
+				#silent=i != index_with_noise,
+				wait_before_start = wait_before))
 
 	def unmount(self):
+
+		self.typewriters = []
 
 		EventManager.removeEventType('back to door')
 	

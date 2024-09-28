@@ -20,7 +20,7 @@ class EventManager:
 		for event in pg.event.get():
 			if event.type == pg.QUIT:
 				return False
-			if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+			if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE and 'doorScene' in SceneManager.getCurrentSceneName():
 				return False
 
 			for type in EventManager.eventTypes:
