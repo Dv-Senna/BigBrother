@@ -2,6 +2,7 @@ import pygame as pg
 from eventManager import *
 from sceneManager import *
 from scenes.doorScene import *
+from scenes.logScene import LogScene
 from scenes.mainMenuScene import *
 from log_manager import Typewriter
 from scenes.openDoorScene import OpenDoorScene
@@ -14,6 +15,7 @@ from log_manager import Typewriter
 class SceneNames:
 	DOOR = "doorScene"
 	OPEN_DOOR = "openDoorScene"
+	LOG_SCENE = "logScene"
 	MAIN_MENU = "mainMenuScene"
 
 
@@ -26,6 +28,9 @@ DOOR_COUNT = 0
 SOUND_FREQ = 20 * 1000 # random sound approx each X sec.
 random_sound_wait = 0
 
+
+def load_sprite(path):
+	return pg.image.load(path)
 
 def changeCurrentDoor(goLeft: bool) -> int:
 	global currentDoor
@@ -44,9 +49,9 @@ def main():
 	global typewriters_screamer
 
 	doorScenes = [
-		DoorScene(pg.image.load("assets/images/scenes/background1.jpg"), changeCurrentDoor, False, True),
-		DoorScene(pg.image.load("assets/images/scenes/background2.jpg"), changeCurrentDoor, True, True),
-		DoorScene(pg.image.load("assets/images/scenes/background3.jpg"), changeCurrentDoor, True, False),
+		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, False, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene01-Background_.png")], changeCurrentDoor, True, False),
 	]
 
 	openDoorScenes = [
@@ -55,12 +60,22 @@ def main():
 		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
 	]
 
+	logScenes = [
+		LogScene(pg.image.load("assets/images/scenes/log.png")),
+		LogScene(pg.image.load("assets/images/scenes/log.png")),
+		LogScene(pg.image.load("assets/images/scenes/log.png")),
+	]
+
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
 
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.OPEN_DOOR}{i}", openDoorScenes[i])
+
+	for i in range(0, len(doorScenes)):
+		SceneManager.addScene(f"{SceneNames.LOG_SCENE}{i}", logScenes[i])
+
 
 
 	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
@@ -78,7 +93,7 @@ def main():
 
 	# Sound
 	SoundManager.load_all()
-	SoundManager.play_ambient('outdoor_subsurb_birds', 4)
+	SoundManager.play_ambient('outdoor_suburb_birds', 4)
 
 	last_update_sound = pg.time.get_ticks()
 	random_sound_wait = SOUND_FREQ * (1 + random.random())
