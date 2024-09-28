@@ -107,14 +107,14 @@ if __name__ == "__main__":
     SoundManager.play_sound("door_1")
     pygame.time.wait(300)
     SoundManager.play_sound("beep_only")
-    
+
     # Play ambient sound
     SoundManager.play_ambient("morning_highway_birds", volume=1)
-    
+
     # Change ambient sound after some action
     pygame.time.wait(5000)  # Wait for 5 seconds
     SoundManager.play_ambient("empty_room_background")
-    
+
     # Stop all sounds
     pygame.time.wait(5000)  # Wait for another 5 seconds
     SoundManager.stop_all_sounds()
