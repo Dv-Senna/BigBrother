@@ -27,23 +27,44 @@ def mainSceneUpdate():
 def mainSceneRender():
 	return
 
+def changeCurrentDoor(goLeft: bool) -> int:
+	global currentDoor
+	global DOOR_COUNT
+
+	if goLeft and currentDoor > 0:
+		currentDoor -= 1
+	elif not goLeft and currentDoor < DOOR_COUNT - 1:
+		currentDoor += 1
+	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
+
 def main():
-	mainScene = Scene(mainSceneUpdate, mainSceneRender)
-	SceneManager.addScene("main", mainScene)
+	global currentDoor
+	global DOOR_COUNT
+
+	doorScenes = [
+		DoorScene(pg.image.load("assets/images/scenes/background1.jpg"), changeCurrentDoor, False, True),
+		DoorScene(pg.image.load("assets/images/scenes/background2.jpg"), changeCurrentDoor, True, True),
+		DoorScene(pg.image.load("assets/images/scenes/background3.jpg"), changeCurrentDoor, True, False),
+	]
+	DOOR_COUNT = len(doorScenes)
+	for i in range(0, len(doorScenes)):
+		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
+
+	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
+
+	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
 
 	fpsClock = pg.time.Clock()
-	pg.font.init()
-	window = pg.display.set_mode((16*70, 9*70))
+	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
 	pg.display.set_caption("BigBrother")
+
+	# Fonts
+	pg.font.init()
+	font = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 12)
 
 	background_img = pg.image.load(
 		'assets\\images\\utils\\test.png').convert()  # Remplacez par le chemin de votre image
 	testText = """"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"""
-
-	# load font
-	font = pg.font.init()
-	font = pg.font.Font(None, 36)
-
 	typewriters = []
 
 	bottomDialogBox = init_dialog(window, testText, background_img, font)
