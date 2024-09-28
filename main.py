@@ -8,6 +8,7 @@ from sounds_manager import SoundManager
 import random
 import config
 
+from log_manager import Typewriter
 
 class SceneNames:
 	DOOR = "doorScene"
@@ -107,6 +108,11 @@ def main():
 		blackScreenSurface.fill((0, 0, 0))
 		blackScreenSurface.set_alpha(SceneManager.blackScreenOpacity)
 		window.blit(blackScreenSurface, blackScreenSurface.get_rect())
+
+		#render text
+		for typewriter in typewriters:
+			typewriter.update()
+			typewriter.draw(window)
 
 		pg.display.update()
 		fpsClock.tick(60)
