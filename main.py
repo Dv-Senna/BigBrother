@@ -78,20 +78,20 @@ def main():
 	]
 
 	logScenes = [
-		LogScene(pg.image.load("assets/images/scenes/log.png"), "103", font, 1),
-		LogScene(pg.image.load("assets/images/scenes/log.png"), "104", font, 1),
-		LogScene(pg.image.load("assets/images/scenes/log.png"), "105", font, 1),
-		LogScene(pg.image.load("assets/images/scenes/log.png"), "106", font, 1),
+		LogScene(pg.image.load("assets/images/scenes/Scene01Close Full_2k_1k.png"), "103", font, 1),
+		LogScene(pg.image.load("assets/images/scenes/Scene01Close Full_2k_1k.png"), "104", font, 1),
+		LogScene(pg.image.load("assets/images/scenes/Scene01Close Full_2k_1k.png"), "105", font, 1),
+		LogScene(pg.image.load("assets/images/scenes/Scene01Close Full_2k_1k.png"), "106", font, 1),
 	]
 
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
 
-	for i in range(0, len(doorScenes)):
+	for i in range(0, len(openDoorScenes)):
 		SceneManager.addScene(f"{SceneNames.OPEN_DOOR}{i}", openDoorScenes[i])
 
-	for i in range(0, len(doorScenes)):
+	for i in range(0, len(logScenes)):
 		SceneManager.addScene(f"{SceneNames.LOG_SCENE}{i}", logScenes[i])
 
 
