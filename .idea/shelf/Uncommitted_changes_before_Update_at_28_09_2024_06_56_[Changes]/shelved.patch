@@ -1,0 +1,199 @@
+Index: DialogManager.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame as pg\r\n\r\nclass DialogManager:\r\n    def __init__(self, window, backgroundImg, margin, text):\r\n        self._window = window\r\n        self._backgroundImg = backgroundImg\r\n        self._margin = margin\r\n        self._text = text  # Stocker le texte\r\n        self._visible = True  # Initialiser la visibilité à False\r\n        self.set_text()\r\n\r\n    def wrap_text(self, font, max_width):\r\n        \"\"\"Divise le texte en plusieurs lignes si nécessaire.\"\"\"\r\n        words = self._text.split(' ')\r\n        lines = []\r\n        current_line = \"\"\r\n\r\n        for word in words:\r\n            test_line = current_line + word + ' '\r\n            if font.size(test_line)[0] <= max_width:\r\n                current_line = test_line\r\n            else:\r\n                lines.append(current_line)\r\n                current_line = word + ' '\r\n\r\n        lines.append(current_line)  # Ajouter la dernière ligne\r\n        return lines\r\n\r\n    def set_text(self):\r\n        if not self._visible:\r\n            return  # Ne rien afficher si la boîte de dialogue n'est pas visible\r\n\r\n        # Blitter l'image de fond centrée en bas avec une marge\r\n        img_rect = self._backgroundImg.get_rect(center=(self._window.get_width() // 2, self._window.get_height() - self._margin))\r\n        img_rect.bottom = self._window.get_height() - self._margin  # Ajuste pour que l'image soit en bas avec la marge\r\n        self._window.blit(self._backgroundImg, img_rect.topleft)\r\n\r\n        # Blitter le texte centré dans l'image\r\n        font = pg.font.Font(None, 36)  # Police par défaut, taille 36\r\n        text_lines = self.wrap_text(font, img_rect.width - 20)  # 20 pixels de marge\r\n\r\n        # Calculer la position de départ pour centrer verticalement le texte\r\n        total_height = sum(font.get_height() for _ in text_lines)\r\n        start_y = img_rect.centery - total_height // 2\r\n\r\n        for line in text_lines:\r\n            text_surface = font.render(line, True, (255, 255, 255))  # Texte en blanc\r\n            text_rect = text_surface.get_rect(center=(img_rect.centerx, start_y))\r\n            self._window.blit(text_surface, text_rect)\r\n            start_y += font.get_height()  # Déplacer vers la ligne suivante\r\n\r\n    def toggle_visibility(self):\r\n        \"\"\"Basculer la visibilité de la boîte de dialogue.\"\"\"\r\n        self.visible = not self._visible\r\n\r\n    def display(self):\r\n        \"\"\"Affiche la fenêtre si la boîte de dialogue est visible.\"\"\"\r\n        if self._visible:\r\n            pg.display.flip()  # Met à jour l'affichage\r\n\r\n    def hide(self):\r\n        self._backgroundImg.fill((0, 0, 0, 0))\r\n\r\n    def getVisiblity(self):\r\n        return self._visible
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/DialogManager.py b/DialogManager.py
+--- a/DialogManager.py	(revision 274daa19490985beabd7f029a343a0b15e325b35)
++++ b/DialogManager.py	(date 1727499212172)
+@@ -7,6 +7,7 @@
+         self._margin = margin
+         self._text = text  # Stocker le texte
+         self._visible = True  # Initialiser la visibilité à False
++        self._isInit = False
+         self.set_text()
+ 
+     def wrap_text(self, font, max_width):
+@@ -55,6 +56,8 @@
+ 
+     def display(self):
+         """Affiche la fenêtre si la boîte de dialogue est visible."""
++        if not self._isInit:
++            self.set_text()
+         if self._visible:
+             pg.display.flip()  # Met à jour l'affichage
+ 
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame as pg\r\nfrom sceneManager import *\r\nfrom DialogManager import DialogManager\r\n\r\n\r\ndef mainSceneUpdate():\r\n\treturn\r\ndef mainSceneRender():\r\n\treturn\r\n\r\ndef main():\r\n\tmainScene = Scene(mainSceneUpdate, mainSceneRender)\r\n\t# SceneManager.addScene(\"main\", mainScene)\r\n\tfpsClock = pg.time.Clock()\r\n\tpg.font.init()\r\n\twindow = pg.display.set_mode((16*70, 9*70))\r\n\tpg.display.set_caption(\"BigBrother\")\r\n\tIMG = pg.image.load(\"test.png\")\r\n\t_dialogManagertest = DialogManager(window, IMG, 25)\r\n\ttestText = \"\"\"\"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur\"\r\n\t\"\"\"\r\n\t_dialogManagertest.DisplayText(testText)\r\n\t# _dialogManagertest.UpdateText(\"TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST\")\r\n\t# _dialogManagertest.ShowDialog()\r\n\t_dialogManagertest.HideDialog()\r\n\t_dialogManagertest.ShowDialog()\r\n\twhile True:\r\n\t\tfor event in pg.event.get():\r\n\t\t\tif event.type == pg.QUIT:\r\n\t\t\t\treturn\r\n\t\t# update section\r\n\t\t# SceneManager.getCurrentScene().updateCallback()\r\n\t\t# draw section\r\n\t\t# window.fill((0, 0, 0))\r\n\r\n\t\t# SceneManager.getCurrentScene().renderCallback()\r\n\r\n\t\tpg.display.update()\r\n\t\tfpsClock.tick(60)\r\n\r\n\r\n\r\nif __name__ == \"__main__\":\r\n\tmain()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision 274daa19490985beabd7f029a343a0b15e325b35)
++++ b/main.py	(date 1727497986035)
+@@ -1,39 +1,86 @@
+ import pygame as pg
++from eventManager import *
+ from sceneManager import *
+-from DialogManager import DialogManager
++from scenes.doorScene import *
++from scenes.mainMenuScene import *
++from DialogManager import *
++from log_manager import Typewriter
++
++class SceneNames:
++	DOOR = "doorScene"
++	MAIN_MENU = "mainMenuScene"
+ 
++# to check if a scene is a doorScene, just use `if SceneManager.getCurrentSceneName()[:-1] == SceneNames.DOOR`4
++# you can also check for currentScene == -1
+ 
+-def mainSceneUpdate():
+-	return
+-def mainSceneRender():
+-	return
++currentDoor = 0
++DOOR_COUNT = 0
++
++def init_dialog(window, background_img, initial_text):
++    return DialogManager(window, background_img, 20, initial_text)
++
++def changeCurrentDoor(goLeft: bool) -> int:
++	global currentDoor
++	global DOOR_COUNT
++
++	if goLeft and currentDoor > 0:
++		currentDoor -= 1
++	elif not goLeft and currentDoor < DOOR_COUNT - 1:
++		currentDoor += 1
++	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
++
+ 
+ def main():
+-	mainScene = Scene(mainSceneUpdate, mainSceneRender)
+-	# SceneManager.addScene("main", mainScene)
++	global currentDoor
++	global DOOR_COUNT
++
++	doorScenes = [
++		DoorScene(pg.image.load("assets/images/spritesheet.png"), changeCurrentDoor),
++		DoorScene(pg.image.load("assets/images/alian_spaceship_heavy1.png"), changeCurrentDoor)
++	]
++	DOOR_COUNT = len(doorScenes)
++	for i in range(0, len(doorScenes)):
++		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
++
++	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
++
++	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
++
++
+ 	fpsClock = pg.time.Clock()
+-	pg.font.init()
+ 	window = pg.display.set_mode((16*70, 9*70))
+ 	pg.display.set_caption("BigBrother")
+-	IMG = pg.image.load("test.png")
+-	_dialogManagertest = DialogManager(window, IMG, 25)
+-	testText = """"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"
+-	"""
+-	_dialogManagertest.DisplayText(testText)
+-	# _dialogManagertest.UpdateText("TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST")
+-	# _dialogManagertest.ShowDialog()
+-	_dialogManagertest.HideDialog()
+-	_dialogManagertest.ShowDialog()
++	pg.font.init()  # Initialiser le module de police
++
++	typewriters = []
++
++	# dialog box
++
++	IMG = pg.image.load('test.png').convert()  # Remplacez par le chemin de votre image
++
++	# Initialiser la police
++	pg.font.Font(None, 36)  # Police par défaut, taille 36
++
++	bottomDM = init_dialog(window, IMG, "TEST TEST TEST TEST TEST TEST TEST TEST")
++
+ 	while True:
+-		for event in pg.event.get():
+-			if event.type == pg.QUIT:
+-				return
++		if not EventManager.update():
++			return
++
+ 		# update section
+-		# SceneManager.getCurrentScene().updateCallback()
++		SceneManager.update()
++		SceneManager.getCurrentScene().update(fpsClock.get_time())
++
+ 		# draw section
+-		# window.fill((0, 0, 0))
++		window.fill((0, 0, 0))
+ 
+-		# SceneManager.getCurrentScene().renderCallback()
++		SceneManager.getCurrentScene().render(window)
++		bottomDM.display()
++
++		#render text
++		for typewriter in typewriters:
++			typewriter.update()
++			typewriter.draw(window)
+ 
+ 		pg.display.update()
+ 		fpsClock.tick(60)
+@@ -41,4 +88,4 @@
+ 
+ 
+ if __name__ == "__main__":
+-	main()
+\ No newline at end of file
++    main()
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"280e893a-fee9-490f-b93d-85d3b70faa98\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/main.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/main.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 1\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2mfFoOqbTATrOk65r64KppZ8Yij\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Python.DialogManager.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.main.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;DialogManager(Morgan-DD)&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/morga/Documents/GitHub/BigBrother&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\r\n      <module name=\"BigBrother\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"SDK_NAME\" value=\"Python 3.12\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/main.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-0e3be3396995-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23339.19\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"280e893a-fee9-490f-b93d-85d3b70faa98\" name=\"Changes\" comment=\"\" />\r\n      <created>1727459898305</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1727459898305</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 274daa19490985beabd7f029a343a0b15e325b35)
++++ b/.idea/workspace.xml	(date 1727497955328)
+@@ -6,6 +6,7 @@
+   <component name="ChangeListManager">
+     <list default="true" id="280e893a-fee9-490f-b93d-85d3b70faa98" name="Changes" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/DialogManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/DialogManager.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -34,16 +35,16 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;Python.DialogManager.executor&quot;: &quot;Run&quot;,
+-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;DialogManager(Morgan-DD)&quot;,
+-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/Users/morga/Documents/GitHub/BigBrother&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "Python.DialogManager.executor": "Run",
++    "Python.main.executor": "Run",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "git-widget-placeholder": "Merging DialogManager(Morgan-DD)",
++    "ignore.virus.scanning.warn.message": "true",
++    "last_opened_file_path": "C:/Users/morga/Documents/GitHub/BigBrother"
+   }
+-}</component>
++}]]></component>
+   <component name="RunManager">
+     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+       <module name="BigBrother" />
