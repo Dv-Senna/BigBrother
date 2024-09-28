@@ -10,7 +10,8 @@ def mainSceneRender():
 
 def main():
 	mainScene = Scene(mainSceneUpdate, mainSceneRender)
-	# SceneManager.addScene("main", mainScene)
+	SceneManager.addScene("main", mainScene)
+
 	fpsClock = pg.time.Clock()
 	pg.font.init()
 	window = pg.display.set_mode((16*70, 9*70))
@@ -28,12 +29,14 @@ def main():
 		for event in pg.event.get():
 			if event.type == pg.QUIT:
 				return
+		
 		# update section
-		# SceneManager.getCurrentScene().updateCallback()
-		# draw section
-		# window.fill((0, 0, 0))
+		SceneManager.getCurrentScene().updateCallback()
 
-		# SceneManager.getCurrentScene().renderCallback()
+		# draw section
+		window.fill((0, 0, 0))
+
+		SceneManager.getCurrentScene().renderCallback()
 
 		pg.display.update()
 		fpsClock.tick(60)
