@@ -51,7 +51,7 @@ class SoundManager:
     def play_sound(name, volume=0.5):
         """Play a sound effect."""
         if name in SoundManager.sounds:
-            SoundManager.sounds[name].play(1)
+            SoundManager.sounds[name].play(0)
             SoundManager.set_volume(name, volume)
 
         else:

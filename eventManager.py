@@ -2,6 +2,12 @@ from typing import Callable
 import pygame as pg
 
 from log_manager import Typewriter
+from sceneManager import SceneManager
+from sounds_manager import SoundManager
+from sceneManager import SceneManager
+from sounds_manager import SoundManager
+
+typewriters_screamer = []
 
 class EventManager:
 	eventTypes: dict[str, Callable[[pg.event.Event], bool]] = {}
@@ -78,20 +84,48 @@ def startLogHandler(typewriters, texts, font):
 		speed=50,
 		wait_before_start = 0))
 	
-def displayAllLogs(typewriters, texts, font, delay_between_each_line=5000):
+def displayAllLogs(typewriters, texts, font, delay_between_each_line=5000, speed=1):
 	index_with_noise = 0 # get the longest sentence
 	for i, text in enumerate(texts):
 		if len(text) > len(texts[index_with_noise]):
 			index_with_noise = i
 	print(index_with_noise)
+	wait_before = 0
 	for i, text in enumerate(texts):
+		if i != 0:
+			wait_before += speed * len(texts[i-1]) * 3 + 200
 		typewriters.append(Typewriter(
 			text, 
 			font, 
 			(300, 70 + 20 * len(typewriters)), 
-			#speed=50 - i / len(texts),
-			silent=i != index_with_noise,
-			wait_before_start = i * delay_between_each_line)),
+			speed=speed,
+			#silent=i != index_with_noise,
+			wait_before_start = wait_before))
+		
+def displaySpecialLog(typewriters, texts, font, scene, delay_between_each_line=5000, speed=1):
+	wait_before = 0
+	SoundManager.play_sound('run_door', 2)
+	for i, text in enumerate(texts):
+		on_finish = lambda: print(f'finished {i}')
+		if i == len(texts) - 1:
+			on_finish = lambda: open_scene_special(scene)
+		if i != 0:
+			wait_before += speed * len(texts[i-1]) * 3 + 200
+		typewriters.append(Typewriter(
+			text, 
+			font, 
+			(300, 70 + 20 * len(typewriters)), 
+			speed=speed,
+			#silent=i != index_with_noise,
+			wait_before_start = wait_before,
+			on_finish=on_finish))
+
+def open_scene_special(scene):
+	global typewriters_screamer
+	typewriters_screamer = []
+	SceneManager.setCurrentScene(scene)
+
+
 if __name__ == "__main__":
 	pg.init()
 

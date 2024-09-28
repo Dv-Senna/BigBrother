@@ -2,9 +2,16 @@ from scenes.doorScene import *
 from scenes.mainMenuScene import *
 from sceneManager import *
 from DialogManager import DialogManager
+from log_manager import Typewriter
+from scenes.openDoorScene import OpenDoorScene
+from sounds_manager import SoundManager
+import random
+import config
+from log_manager import Typewriter
 
 class SceneNames:
 	DOOR = "doorScene"
+	OPEN_DOOR = "openDoorScene"
 	MAIN_MENU = "mainMenuScene"
 
 
@@ -19,12 +26,8 @@ random_sound_wait = 0
 
 def init_dialog(window, initial_text, background_img, fontUsed, Location=(-1,-1)):
     return DialogManager(window, background_img, 20, initial_text, fontUsed, Location)
-def init_dialog(window, initial_text, background_img, fontUsed):
-    return DialogManager(window, background_img, 20, initial_text, fontUsed)
 
 def mainSceneUpdate():
-	return
-def mainSceneRender():
 	return
 
 def changeCurrentDoor(goLeft: bool) -> int:
@@ -41,15 +44,27 @@ def changeCurrentDoor(goLeft: bool) -> int:
 def main():
 	global currentDoor
 	global DOOR_COUNT
+	global typewriters_screamer
 
 	doorScenes = [
 		DoorScene(pg.image.load("assets/images/scenes/background1.jpg"), changeCurrentDoor, False, True),
 		DoorScene(pg.image.load("assets/images/scenes/background2.jpg"), changeCurrentDoor, True, True),
 		DoorScene(pg.image.load("assets/images/scenes/background3.jpg"), changeCurrentDoor, True, False),
 	]
+
+	openDoorScenes = [
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
+		OpenDoorScene(pg.image.load("assets/images/scenes/screamer.jpg")),
+	]
+
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
+
+	for i in range(0, len(doorScenes)):
+		SceneManager.addScene(f"{SceneNames.OPEN_DOOR}{i}", openDoorScenes[i])
+
 
 	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
 
@@ -83,18 +98,14 @@ def main():
 	with open('example_text.txt') as f:
 		texts = f.read().split('\n')
 
-	texts += 10 * ['']
+	with open('text_mysterious.txt') as f:
+		texts_myst = f.read().split('\n')
 
 	bottomDialogBox = init_dialog(window, testText, NPCDialogBackground_img, fontForNPC  )
 
 	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
 	callbackHandlerH = EventManager.registerCallback("key_h",
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
-	EventManager.addEventType("key_l", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_l)
-	callbackHandlerL = EventManager.registerCallback("key_l", lambda: bottomDialogBox.toggle_visibility())
-
-	EventManager.addEventType("key_m", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_m)
-	callbackHandlerL = EventManager.registerCallback("key_m", lambda: bottomDialogBox.changeText("TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST "))
 
 	while True:
 		if not EventManager.update():
@@ -108,14 +119,13 @@ def main():
 		SceneManager.render(window)
 
 		# render text
-		for typewriter in typewriters:
-			typewriter.update()
-			typewriter.draw(window)
+		for typewriter_screamer in typewriters_screamer:
+			typewriter_screamer.update()
+			typewriter_screamer.draw(window)
 
 		now = pg.time.get_ticks()
 
 		if now - last_update_sound > random_sound_wait:
-			print('test')
 			SoundManager.play_ambient_small(0.1)
 			random_sound_wait = SOUND_FREQ * (1 + random.random())
 			last_update_sound = now

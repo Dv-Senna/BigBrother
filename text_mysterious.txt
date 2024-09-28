@@ -1,0 +1,3 @@
+7h11 : User 105 wakes up
+7h31 : User 105 makes a call (40 min.)
+8h21 : User 105 leaves Unit 105 
