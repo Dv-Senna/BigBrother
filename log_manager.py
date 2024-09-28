@@ -1,5 +1,6 @@
 import pygame
 
+from sceneManager import SceneManager
 from sounds_manager import SoundManager
 
 # Display text function
@@ -15,7 +16,7 @@ def clear_screen(window):
 
 # Typewriter effect using time tracking (non-blocking)
 class Typewriter:
-    def __init__(self, text, font, pos, speed=50, wait_before_start=0, silent=False):
+    def __init__(self, text, font, pos, speed=50, wait_before_start=0, silent=False, on_finish=lambda: None):
         self.text = text
         self.pos = pos
         self.font = font
@@ -26,6 +27,8 @@ class Typewriter:
         self.done = False
         self.silent = silent
 
+        self.on_finish = on_finish
+
     def update(self):
         now = pygame.time.get_ticks()
         delay = now - self.last_update_time        
@@ -33,14 +36,14 @@ class Typewriter:
             self.last_update_time = now
             if self.current_index < len(self.text):
                 if self.current_index == 0:
-                    SoundManager.play_sound('GUI Sound Effects_038', 0.02)
-                self.current_index += 1
+                    SoundManager.play_sound('GUI Sound Effects_038', 0.01)
+                self.current_index += min(2, len(self.text) - self.current_index)
                 if not self.silent and self.text[self.current_index - 1] != ' ':
-                    SoundManager.play_sound('TF_GUI-Sound-7', 0.1)
-
-            else: # If we want it to disappear
-                self.done = True
-                pass
+                    SoundManager.play_sound('TF_GUI-Sound-7', 0.01)
+        if not self.done and self.current_index >= len(self.text): # If we want it to disappear
+            print('ok')
+            self.on_finish()
+            self.done = True
     
     def drawable(self):
         now = pygame.time.get_ticks()
