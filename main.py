@@ -1,21 +1,12 @@
-import pygame as pg
-from eventManager import *
-from sceneManager import *
-from DialogManager import DialogManager
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
-from log_manager import Typewriter
-from sounds_manager import SoundManager
-import random
-import config
-
-from log_manager import Typewriter
+from sceneManager import *
+from DialogManager import DialogManager
 
 class SceneNames:
 	DOOR = "doorScene"
 	MAIN_MENU = "mainMenuScene"
-from sceneManager import *
-from DialogManager import DialogManager
+
 
 # to check if a scene is a doorScene, just use `if SceneManager.getCurrentSceneName()[:-1] == SceneNames.DOOR`4
 # you can also check for currentScene == -1
@@ -28,6 +19,13 @@ random_sound_wait = 0
 
 def init_dialog(window, initial_text, background_img, fontUsed, Location=(-1,-1)):
     return DialogManager(window, background_img, 20, initial_text, fontUsed, Location)
+def init_dialog(window, initial_text, background_img, fontUsed):
+    return DialogManager(window, background_img, 20, initial_text, fontUsed)
+
+def mainSceneUpdate():
+	return
+def mainSceneRender():
+	return
 
 def changeCurrentDoor(goLeft: bool) -> int:
 	global currentDoor
@@ -56,6 +54,7 @@ def main():
 	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
 
 	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
+
 
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
@@ -139,4 +138,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+	main()
