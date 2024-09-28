@@ -1,6 +1,7 @@
 import pygame
 
 from sceneManager import SceneManager
+from sceneManager import SceneManager
 from sounds_manager import SoundManager
 
 # Display text function
