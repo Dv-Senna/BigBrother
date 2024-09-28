@@ -69,6 +69,9 @@ def main():
 		LogScene(pg.image.load("assets/images/scenes/log.png")),
 	]
 
+	play_button = pg.image.load("assets/images/play_button.png")
+	quit_button = pg.image.load("assets/images/quit_button.png")
+	
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
@@ -83,7 +86,7 @@ def main():
 
 	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
 
-	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
+	SceneManager.setCurrentScene(SceneNames.MAIN_MENU)
 
 
 	fpsClock = pg.time.Clock()
@@ -163,4 +166,4 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+    main()

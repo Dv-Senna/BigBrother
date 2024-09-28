@@ -1,3 +1,5 @@
+
+
 import sys
 import pygame as pg
 from sceneManager import *
@@ -55,14 +57,14 @@ class MainMenuScene(Scene):
         self.background = "assets/images/scenes/background1.jpg"
         
         # Play button setup
-        self.play_buttonRect = play_button.get_rect()
-        self.play_button = play_button
+        self.play_button = pg.transform.scale(play_button, (int(play_button.get_width() * 0.2), int(play_button.get_height() * 0.2)))  # Scale down the play button
+        self.play_buttonRect = self.play_button.get_rect()
         self.play_buttonRect.centerx = config.WINDOW_WIDTH // 2  # Center horizontally
         self.play_buttonRect.centery = config.WINDOW_HEIGHT // 2  # Center vertically
         
         # Quit button setup
-        self.quit_buttonRect = quit_button.get_rect()
-        self.quit_button = quit_button
+        self.quit_button = pg.transform.scale(quit_button, (int(quit_button.get_width() * 0.2), int(quit_button.get_height() * 0.2)))  # Scale down the quit button
+        self.quit_buttonRect = self.quit_button.get_rect()
         self.quit_buttonRect.centerx = config.WINDOW_WIDTH // 2  # Center horizontally
         self.quit_buttonRect.centery = config.WINDOW_HEIGHT // 1.5  # Position below the play button
 
@@ -85,3 +87,4 @@ class MainMenuScene(Scene):
         window.blit(background_image, (0, 0))
         window.blit(self.play_button, self.play_buttonRect)
         window.blit(self.quit_button, self.quit_buttonRect)
+
