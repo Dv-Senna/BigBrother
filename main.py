@@ -1,15 +1,13 @@
-import pygame as pg
-from eventManager import *
-from sceneManager import *
 from scenes.doorScene import *
 from scenes.logScene import LogScene
 from scenes.mainMenuScene import *
+from sceneManager import *
+from DialogManager import DialogManager
 from log_manager import Typewriter
 from scenes.openDoorScene import OpenDoorScene
 from sounds_manager import SoundManager
 import random
 import config
-
 from log_manager import Typewriter
 
 class SceneNames:
@@ -101,9 +99,9 @@ def main():
 
 
 
-	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
+	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene(play_button, quit_button))
 
-	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
+	SceneManager.setCurrentScene(SceneNames.MAIN_MENU)
 
 
 	fpsClock = pg.time.Clock()
@@ -123,17 +121,15 @@ def main():
 	with open('text_mysterious.txt') as f:
 		texts_myst = f.read().split('\n')
 
-	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
-	callbackHandlerH = EventManager.registerCallback("key_h", 
-												 lambda: displayAllLogs(typewriters, texts, font, 100))
-	
-	# displaySpecialLog(typewriters_screamer, texts_myst, font=font, delay_between_each_line=100, speed=1, scene='openDoorScene1')
+	bottomDialogBox = init_dialog(window, testText, NPCDialogBackground_img, fontForNPC  )
 
+	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
+	callbackHandlerH = EventManager.registerCallback("key_h",
+												 lambda: displayAllLogs(typewriters, texts, font, 100))
 
 	while True:
 		if not EventManager.update():
 			return
-
 		# update section
 		SceneManager.update(fpsClock.get_time())
 
@@ -160,6 +156,7 @@ def main():
 		blackScreenSurface.set_alpha(SceneManager.blackScreenOpacity)
 		window.blit(blackScreenSurface, blackScreenSurface.get_rect())
 
+		bottomDialogBox.display()
 		#render text
 		for typewriter in typewriters:
 			typewriter.update()

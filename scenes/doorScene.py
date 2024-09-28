@@ -4,6 +4,7 @@ from sceneManager import *
 from eventManager import *
 import config
 import random
+import random
 
 isLeftArrowButtonPress = False
 isRightArrowButtonPress = False
@@ -87,7 +88,6 @@ class DoorScene(Scene):
 		self.eye = pg.Rect(1290, 150, 260, 260)
 		self.logs = pg.Rect(1100, 500, 700, 560)
 		self.door = pg.Rect(150, 100, 800, 800)
-
 
 	def mount(self):
 		if self.hasLeftArrow:
