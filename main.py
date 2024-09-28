@@ -66,7 +66,8 @@ def main():
 		DoorScene([load_sprite("assets/images/scenes/Scene01Close Full_2k_1k.png")], changeCurrentDoor, False, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene02Close Full_2k_1k.png")], changeCurrentDoor, True, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene03Close Full_2k_1k.png")], changeCurrentDoor, True, True),
-		DoorScene([load_sprite("assets/images/scenes/Scene04Close Full_2k_1k.png")], changeCurrentDoor, True, False),
+		DoorScene([load_sprite("assets/images/scenes/Scene04Close Full_2k_1k.png")], changeCurrentDoor, True, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene05Close Full_2k_1k.png")], changeCurrentDoor, True, False),
 	]
 
 	openDoorScenes = [
