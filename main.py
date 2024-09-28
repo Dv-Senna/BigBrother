@@ -3,7 +3,7 @@ from eventManager import *
 from sceneManager import *
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
-
+from log_manager import Typewriter
 
 class SceneNames:
 	DOOR = "doorScene"
@@ -48,6 +48,8 @@ def main():
 	window = pg.display.set_mode((16*70, 9*70))
 	pg.display.set_caption("BigBrother")
 
+	typewriters = []
+
 	while True:
 		if not EventManager.update():
 			return
@@ -60,6 +62,11 @@ def main():
 		window.fill((0, 0, 0))
 
 		SceneManager.getCurrentScene().render(window)
+
+		#render text
+		for typewriter in typewriters:
+			typewriter.update()
+			typewriter.draw(window)
 
 		pg.display.update()
 		fpsClock.tick(60)
