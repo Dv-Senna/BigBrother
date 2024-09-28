@@ -20,6 +20,7 @@ class Scene:
 
 class SceneManager:
 	currentScene: str = ""
+	targetScene: str = ""
 	scenes: dict[str, Scene] = {}
 	
 	@staticmethod
@@ -31,9 +32,17 @@ class SceneManager:
 			print(f"\033[31mYou try to set scene '{sceneName}' as the current scene, but it does not exist\033[m")
 			return
 
+		SceneManager.targetScene = sceneName
+
+	@staticmethod
+	def update():
+		if SceneManager.targetScene == "":
+			return
+
+		SceneManager.currentScene = SceneManager.targetScene
+		SceneManager.targetScene = ""
 		if SceneManager.currentScene != "":
 			SceneManager.scenes[SceneManager.currentScene].unmount()
-		SceneManager.currentScene = sceneName
 		SceneManager.scenes[SceneManager.currentScene].mount()
 
 	@staticmethod
