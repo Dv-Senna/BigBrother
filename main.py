@@ -84,7 +84,7 @@ def main():
 
 
 
-	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene())
+	SceneManager.addScene(SceneNames.MAIN_MENU, MainMenuScene(play_button, quit_button))
 
 	SceneManager.setCurrentScene(SceneNames.MAIN_MENU)
 
@@ -100,7 +100,7 @@ def main():
 	fontForNPC = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 20)
 
 	NPCDialogBackground_img = pg.image.load(
-		'assets\\images\\utils\\backgroundDialogBottom.png')  # Remplacez par le chemin de votre image
+		'assets/images/utils/backgroundDialogBottom.png')  # Remplacez par le chemin de votre image
 	testText = """Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"""
 	typewriters = []
 
