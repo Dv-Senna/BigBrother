@@ -47,7 +47,7 @@ class SceneManager:
 			return
 
 		SceneManager.targetScene = sceneName
-		if SceneManager.currentScene[:-1] == "doorScene":
+		if SceneManager.currentScene[:-1] == "doorScene" and SceneManager.targetScene[:-1] == "doorScene":
 			SceneManager.oldCurrentScene = SceneManager.currentScene
 			SceneManager.currentScene = SceneManager.targetScene
 			SceneManager.currentTransition = "slide"

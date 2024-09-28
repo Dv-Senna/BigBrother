@@ -93,14 +93,12 @@ def main():
 	callbackHandlerH = EventManager.registerCallback("key_h", 
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
 	
-	displaySpecialLog(typewriters, texts_myst, font=font, delay_between_each_line=100, speed=1, scene='openDoorScene1')
+	# displaySpecialLog(typewriters, texts_myst, font=font, delay_between_each_line=100, speed=1, scene='openDoorScene1')
 
 
 	while True:
 		if not EventManager.update():
 			return
-
-		print(SceneManager.currentScene)
 
 		# update section
 		SceneManager.update(fpsClock.get_time())
@@ -118,7 +116,6 @@ def main():
 		now = pg.time.get_ticks()
 
 		if now - last_update_sound > random_sound_wait:
-			print('test')
 			SoundManager.play_ambient_small(0.1)
 			random_sound_wait = SOUND_FREQ * (1 + random.random())
 			last_update_sound = now

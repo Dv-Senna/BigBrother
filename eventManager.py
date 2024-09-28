@@ -117,7 +117,6 @@ def displaySpecialLog(typewriters, texts, font, scene, delay_between_each_line=5
 			on_finish=on_finish))
 
 def open_scene_special(scene):
-	print('Boo !')
 	SceneManager.setCurrentScene(scene)
 
 if __name__ == "__main__":
