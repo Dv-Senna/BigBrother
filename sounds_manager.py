@@ -58,6 +58,15 @@ class SoundManager:
             print(f"Sound {name} not found.")
 
     @staticmethod
+    def stop_sound(name):
+        """Stops a sound effect."""
+        if name in SoundManager.sounds:
+            SoundManager.sounds[name].stop()
+
+        else:
+            print(f"Sound {name} not found.")
+
+    @staticmethod
     def play_ambient_small(volume=0.5):
         name = random.choice(list(SoundManager.ambient_small_sounds.keys()))
         SoundManager.ambient_small_sounds[name].play(1)
