@@ -4,6 +4,7 @@ from sceneManager import *
 from scenes.doorScene import *
 from scenes.mainMenuScene import *
 from log_manager import Typewriter
+from sounds_manager import SoundManager
 
 class SceneNames:
 	DOOR = "doorScene"
@@ -52,6 +53,9 @@ def main():
 	pg.font.init()
 	font = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 12)
 
+	# Sound
+	SoundManager.load_all()
+
 	typewriters = []
 	texts = []
 	with open('example_text.txt') as f:
@@ -62,12 +66,7 @@ def main():
 	EventManager.addEventType("key_g", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_g)
 
 	callbackHandler = EventManager.registerCallback("key_g", 
-												 lambda: typewriters.append(
-													 Typewriter(
-														 texts[len(typewriters)], 
-														 font, 
-														 (300, 70 + 20 * len(typewriters)), 
-														 wait_before_start = 0)))
+												 lambda: startLogHandler(typewriters, texts, font))
 
 	while True:
 		if not EventManager.update():

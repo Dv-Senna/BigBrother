@@ -38,10 +38,11 @@ class SoundManager:
             SoundManager.sounds[name] = sound
 
     @staticmethod
-    def play_sound(name, loops=0):
+    def play_sound(name, volume=0.5):
         """Play a sound effect."""
         if name in SoundManager.sounds:
-            SoundManager.sounds[name].play(loops)
+            SoundManager.sounds[name].play(1)
+            SoundManager.set_volume(name, volume)
         else:
             print(f"Sound {name} not found.")
 

@@ -1,5 +1,7 @@
 import pygame
 
+from sounds_manager import SoundManager
+
 # Display text function
 # Define colors
 WHITE = (255, 255, 255)
@@ -13,7 +15,7 @@ def clear_screen(window):
 
 # Typewriter effect using time tracking (non-blocking)
 class Typewriter:
-    def __init__(self, text, font, pos, speed=50, wait_before_start=0):
+    def __init__(self, text, font, pos, speed=50, wait_before_start=0, silent=False):
         self.text = text
         self.pos = pos
         self.font = font
@@ -22,6 +24,7 @@ class Typewriter:
         self.current_index = 0
         self.last_update_time = pygame.time.get_ticks()
         self.done = False
+        self.silent = silent
 
     def update(self):
         now = pygame.time.get_ticks()
@@ -30,6 +33,9 @@ class Typewriter:
             self.last_update_time = now
             if self.current_index < len(self.text):
                 self.current_index += 1
+                if not self.silent and self.text[self.current_index - 1] != ' ':
+                    SoundManager.play_sound('TF_GUI-Sound-7', 0.1)
+
             else: # If we want it to disappear
                 #self.done = True
                 pass

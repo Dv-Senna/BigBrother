@@ -1,6 +1,8 @@
 from typing import Callable
 import pygame as pg
 
+from log_manager import Typewriter
+
 
 
 class EventManager:
@@ -66,6 +68,17 @@ def leftArrowEventFilter(event: pg.event.Event):
 
 def leftArrowHandler():
 	print("LEFT ARROW")
+
+def startLogHandler(typewriters, texts, font):
+	for i, writer in enumerate(typewriters):
+		writer.silent = True
+		writer.speed = 50 - 15 * (2 - i / len(typewriters))
+	typewriters.append(Typewriter(
+		texts[len(typewriters)], 
+		font, 
+		(300, 70 + 20 * len(typewriters)), 
+		speed=50,
+		wait_before_start = 0))
 
 if __name__ == "__main__":
 	pg.init()
