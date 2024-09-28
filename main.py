@@ -98,7 +98,7 @@ def main():
 	fontForNPC = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 20)
 
 	NPCDialogBackground_img = pg.image.load(
-		'assets\\images\\utils\\backgroundDialogBottom.png')  # Remplacez par le chemin de votre image
+		'assets/images/utils/backgroundDialogBottom.png')  # Remplacez par le chemin de votre image
 	testText = """Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"""
 	typewriters = []
 
@@ -124,15 +124,9 @@ def main():
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
 
 	# Story
-	storyManager = StoryManager()
-	storyManager.setup()
-	storyManager.selectPerson("101")
+	StoryManager.setup()
+	StoryManager.selectPerson("101")
 
-	print(storyManager.getAvailableDialogList())
-	storyManager.selectDialog("1")
-	print(storyManager.getDialogChoices())
-	print(storyManager.goToChoice(1))
-	print(storyManager.getCurrentDialog())
 
 	while True:
 		if not EventManager.update():

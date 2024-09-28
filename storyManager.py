@@ -3,55 +3,56 @@ from typing import List
 
 
 class StoryManager:
-	def __init__(self):
-		self.currentPerson = ""
-		self.currentDialogID = ""
-		self.story = {}
-		self.dialogs = {}
-		self.logs = {}
-		self.alreadyPlayedDialog: dict[str, List[str]] = {}
-		self.alreadyPlayedLog: dict[str, List[str]] = {}
+	currentPerson = ""
+	currentDialogID = ""
+	story = {}
+	dialogs = {}
+	logs = {}
+	alreadyPlayedDialog: dict[str, List[str]] = {}
+	alreadyPlayedLog: dict[str, List[str]] = {}
 
-	def setup(self):
+	def setup():
 		with open("assets/story.json", "r") as storyFile:
-			self.story = json.load(storyFile)
+			StoryManager.story = json.load(storyFile)
 		with open("assets/dialogs.json", "r") as dialogsFile:
-			self.dialogs = json.load(dialogsFile)
+			StoryManager.dialogs = json.load(dialogsFile)
+		with open("assets/log.json", "r") as logFile:
+			StoryManager.logs = json.load(logFile)
 
-	def selectPerson(self, person: str):
-		if person not in self.dialogs:
+	def selectPerson(person: str):
+		if person not in StoryManager.dialogs:
 			print(f"\033[31mInvalid person id '{person}'\033[m")
 			return
-		self.currentPerson = person
+		StoryManager.currentPerson = person
 
-	def selectDialog(self, dialog: str):
-		for dialogObject in self.dialogs[self.currentPerson]:
+	def selectDialog(dialog: str):
+		for dialogObject in StoryManager.dialogs[StoryManager.currentPerson]:
 			if dialogObject["id"] == dialog:
-				self.currentDialogID = dialog
-				if self.currentPerson not in self.alreadyPlayedDialog:
-					self.alreadyPlayedDialog[self.currentPerson] = []
-				self.alreadyPlayedDialog[self.currentPerson].append(self.currentDialogID)
+				StoryManager.currentDialogID = dialog
+				if StoryManager.currentPerson not in StoryManager.alreadyPlayedDialog:
+					StoryManager.alreadyPlayedDialog[StoryManager.currentPerson] = []
+				StoryManager.alreadyPlayedDialog[StoryManager.currentPerson].append(StoryManager.currentDialogID)
 				return
 
 		print(f"\033[31mInvalid dialog id '{dialog}'\033[m")
 		return
 
-	def getAvailableLogs(self):
-		return self.logs[self.currentPerson]
+	def getAvailableLogs():
+		return StoryManager.logs[StoryManager.currentPerson]
 
-	def selectLog(self, log: str):
-		for logObject in self.logs[self.currentPerson]:
+	def selectLog(log: str):
+		for logObject in StoryManager.logs[StoryManager.currentPerson]:
 			if logObject["id"] != log:
 				continue
 			if logObject["dialog"] == "":
 				return
-			self.selectDialog(logObject["dialog"])
+			StoryManager.selectDialog(logObject["dialog"])
 			return
 	
 
-	def getCurrentDialog(self):
-		for dialog in self.dialogs[self.currentPerson]:
-			if dialog["id"] != self.currentDialogID:
+	def getCurrentDialog():
+		for dialog in StoryManager.dialogs[StoryManager.currentPerson]:
+			if dialog["id"] != StoryManager.currentDialogID:
 				continue
 
 			return dialog
