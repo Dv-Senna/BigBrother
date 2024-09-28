@@ -8,6 +8,7 @@ from scenes.openDoorScene import OpenDoorScene
 from sounds_manager import SoundManager
 import random
 import config
+from storyManager import StoryManager
 from log_manager import Typewriter
 
 class SceneNames:
@@ -121,6 +122,17 @@ def main():
 	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
 	callbackHandlerH = EventManager.registerCallback("key_h",
 												 lambda: displayAllLogs(typewriters, texts, font, 100))
+
+	# Story
+	storyManager = StoryManager()
+	storyManager.setup()
+	storyManager.selectPerson("101")
+
+	print(storyManager.getAvailableDialogList())
+	storyManager.selectDialog("1")
+	print(storyManager.getDialogChoices())
+	print(storyManager.goToChoice(1))
+	print(storyManager.getCurrentDialog())
 
 	while True:
 		if not EventManager.update():
