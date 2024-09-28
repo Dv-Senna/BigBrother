@@ -1,14 +1,17 @@
 import pygame as pg
 
 class DialogManager:
-    def __init__(self, window, backgroundImg, margin):
+    def __init__(self, window, backgroundImg, margin, text):
         self._window = window
         self._backgroundImg = backgroundImg
         self._margin = margin
+        self._text = text  # Stocker le texte
+        self._visible = True  # Initialiser la visibilité à False
+        self.set_text()
 
-    def wrap_text(self, text, font, max_width):
+    def wrap_text(self, font, max_width):
         """Divise le texte en plusieurs lignes si nécessaire."""
-        words = text.split(' ')
+        words = self._text.split(' ')
         lines = []
         current_line = ""
 
@@ -23,7 +26,10 @@ class DialogManager:
         lines.append(current_line)  # Ajouter la dernière ligne
         return lines
 
-    def DisplayText(self, Text):
+    def set_text(self):
+        if not self._visible:
+            return  # Ne rien afficher si la boîte de dialogue n'est pas visible
+
         # Blitter l'image de fond centrée en bas avec une marge
         img_rect = self._backgroundImg.get_rect(center=(self._window.get_width() // 2, self._window.get_height() - self._margin))
         img_rect.bottom = self._window.get_height() - self._margin  # Ajuste pour que l'image soit en bas avec la marge
@@ -31,7 +37,7 @@ class DialogManager:
 
         # Blitter le texte centré dans l'image
         font = pg.font.Font(None, 36)  # Police par défaut, taille 36
-        text_lines = self.wrap_text(Text, font, img_rect.width - 20)  # 20 pixels de marge
+        text_lines = self.wrap_text(font, img_rect.width - 20)  # 20 pixels de marge
 
         # Calculer la position de départ pour centrer verticalement le texte
         total_height = sum(font.get_height() for _ in text_lines)
@@ -43,10 +49,17 @@ class DialogManager:
             self._window.blit(text_surface, text_rect)
             start_y += font.get_height()  # Déplacer vers la ligne suivante
 
-    def ShowDialog(self):
-        self._visible = True  # Rendre visible l'image et le texte
+    def toggle_visibility(self):
+        """Basculer la visibilité de la boîte de dialogue."""
+        self.visible = not self._visible
 
-    def HideDialog(self):
-        self._visible = False  # Cacher l'image et le texte
-        # Optionnel : Effacer la zone de dialogue
-        self._window.fill((0, 0, 0), rect=(0, self._window.get_height() - self._backgroundImg.get_height() - self._margin, self._window.get_width(), self._backgroundImg.get_height() + self._margin))
+    def display(self):
+        """Affiche la fenêtre si la boîte de dialogue est visible."""
+        if self._visible:
+            pg.display.flip()  # Met à jour l'affichage
+
+    def hide(self):
+        self._backgroundImg.fill((0, 0, 0, 0))
+
+    def getVisiblity(self):
+        return self._visible
