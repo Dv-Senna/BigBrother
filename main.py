@@ -26,6 +26,9 @@ DOOR_COUNT = 0
 SOUND_FREQ = 20 * 1000 # random sound approx each X sec.
 random_sound_wait = 0
 
+def init_dialog(window, initial_text, background_img, fontUsed, Location=(-1,-1)):
+    return DialogManager(window, background_img, 20, initial_text, fontUsed, Location)
+
 def changeCurrentDoor(goLeft: bool) -> int:
 	global currentDoor
 	global DOOR_COUNT
@@ -42,8 +45,9 @@ def main():
 	global DOOR_COUNT
 
 	doorScenes = [
-		DoorScene(pg.image.load("assets/images/spritesheet.png"), changeCurrentDoor),
-		DoorScene(pg.image.load("assets/images/alian_spaceship_heavy1.png"), changeCurrentDoor)
+		DoorScene(pg.image.load("assets/images/scenes/background1.jpg"), changeCurrentDoor, False, True),
+		DoorScene(pg.image.load("assets/images/scenes/background2.jpg"), changeCurrentDoor, True, True),
+		DoorScene(pg.image.load("assets/images/scenes/background3.jpg"), changeCurrentDoor, True, False),
 	]
 	DOOR_COUNT = len(doorScenes)
 	for i in range(0, len(doorScenes)):
@@ -53,26 +57,20 @@ def main():
 
 	SceneManager.setCurrentScene(f"{SceneNames.DOOR}{currentDoor}")
 
-
-	mainScene = Scene(mainSceneUpdate, mainSceneRender)
-	SceneManager.addScene("main", mainScene)
-	DialogManager.DisplayText("Test")
 	fpsClock = pg.time.Clock()
 	window = pg.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
 	pg.display.set_caption("BigBrother")
-	background_img = pg.image.load("test.png")
-
-	testText = """"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"
-	"""
-	_dialogManagertest.DisplayText(testText)
-	# _dialogManagertest.UpdateText("TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST")
-	# _dialogManagertest.ShowDialog()
-	_dialogManagertest.HideDialog()
-	_dialogManagertest.ShowDialog()
 
 	# Fonts
 	pg.font.init()
 	font = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 12)
+
+	fontForNPC = pg.font.Font("assets/fonts/CourierPrime-Regular.ttf", 20)
+
+	NPCDialogBackground_img = pg.image.load(
+		'assets\\images\\utils\\backgroundDialogBottom.png')  # Remplacez par le chemin de votre image
+	testText = """Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi archonsectetur,re magnam aliqutationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur"""
+	typewriters = []
 
 	# Sound
 	SoundManager.load_all()
@@ -88,21 +86,20 @@ def main():
 
 	texts += 10 * ['']
 
-	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
-	callbackHandlerH = EventManager.registerCallback("key_h", 
-												 lambda: displayAllLogs(typewriters, texts, font, 100))
+	bottomDialogBox = init_dialog(window, testText, NPCDialogBackground_img, fontForNPC  )
 
-	dialog_manager = DialogManager(window, background_img, 20,  testText)
-	dialog_manager.display()
-	dialog_manager.hide()
-	print(dialog_manager.getVisiblity())
-	# dialog_manager.set_text(testText)
-	# dialog_manager.toggle_visibility()
+	EventManager.addEventType("key_h", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_h)
+	callbackHandlerH = EventManager.registerCallback("key_h",
+												 lambda: displayAllLogs(typewriters, texts, font, 100))
+	EventManager.addEventType("key_l", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_l)
+	callbackHandlerL = EventManager.registerCallback("key_l", lambda: bottomDialogBox.toggle_visibility())
+
+	EventManager.addEventType("key_m", lambda event: event.type == pg.KEYDOWN and event.key == pg.K_m)
+	callbackHandlerL = EventManager.registerCallback("key_m", lambda: bottomDialogBox.changeText("TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST "))
 
 	while True:
 		if not EventManager.update():
 			return
-
 		# update section
 		SceneManager.update(fpsClock.get_time())
 
@@ -130,6 +127,7 @@ def main():
 		blackScreenSurface.set_alpha(SceneManager.blackScreenOpacity)
 		window.blit(blackScreenSurface, blackScreenSurface.get_rect())
 
+		bottomDialogBox.display()
 		#render text
 		for typewriter in typewriters:
 			typewriter.update()
