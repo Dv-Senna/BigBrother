@@ -176,12 +176,13 @@ class DoorScene(Scene):
 		self.timer += dt
 
 		mouse_pos = pg.mouse.get_pos()
+		currentDoor = int(SceneManager.getCurrentSceneName()[-1])
 
-		if self.eye.collidepoint(mouse_pos):
+		if self.eye.collidepoint(mouse_pos) and currentDoor != 4:
 			pg.mouse.set_cursor(pg.SYSTEM_CURSOR_HAND)
-		elif self.logs.collidepoint(mouse_pos):
+		elif self.logs.collidepoint(mouse_pos) and currentDoor != 4:
 			pg.mouse.set_cursor(pg.SYSTEM_CURSOR_HAND)
-		elif self.door.collidepoint(mouse_pos):
+		elif self.door.collidepoint(mouse_pos) and currentDoor != 4:
 			pg.mouse.set_cursor(pg.SYSTEM_CURSOR_HAND)
 		else:
 			pg.mouse.set_cursor(pg.SYSTEM_CURSOR_ARROW)

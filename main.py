@@ -66,7 +66,8 @@ def main():
 		DoorScene([load_sprite("assets/images/scenes/Scene01Close Full_2k_1k.png")], changeCurrentDoor, False, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene02Close Full_2k_1k.png")], changeCurrentDoor, True, True),
 		DoorScene([load_sprite("assets/images/scenes/Scene03Close Full_2k_1k.png")], changeCurrentDoor, True, True),
-		DoorScene([load_sprite("assets/images/scenes/Scene04Close Full_2k_1k.png")], changeCurrentDoor, True, False),
+		DoorScene([load_sprite("assets/images/scenes/Scene04Close Full_2k_1k.png")], changeCurrentDoor, True, True),
+		DoorScene([load_sprite("assets/images/scenes/Scene05Close Full_2k_1k.png")], changeCurrentDoor, True, False),
 	]
 
 	openDoorScenes = [
@@ -87,10 +88,10 @@ def main():
 	for i in range(0, len(doorScenes)):
 		SceneManager.addScene(f"{SceneNames.DOOR}{i}", doorScenes[i])
 
-	for i in range(0, len(doorScenes)):
+	for i in range(0, len(openDoorScenes)):
 		SceneManager.addScene(f"{SceneNames.OPEN_DOOR}{i}", openDoorScenes[i])
 
-	for i in range(0, len(doorScenes)):
+	for i in range(0, len(logScenes)):
 		SceneManager.addScene(f"{SceneNames.LOG_SCENE}{i}", logScenes[i])
 
 

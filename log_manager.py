@@ -37,10 +37,10 @@ class Typewriter:
             self.last_update_time = now
             if self.current_index < len(self.text):
                 if self.current_index == 0:
-                    SoundManager.play_sound('GUI Sound Effects_038', 0.01)
+                    SoundManager.play_sound('GUI Sound Effects_038', 0.1)
                 self.current_index += min(2, len(self.text) - self.current_index)
                 if not self.silent and not pygame.mixer.get_busy() and not self.text[self.current_index - 1] != ' ':
-                    SoundManager.play_sound('TF_GUI-Sound-7', 0.01)
+                    SoundManager.play_sound('TF_GUI-Sound-7', 1.0)
         if not self.done and self.current_index >= len(self.text): # If we want it to disappear
             print('ok fini')
             print(self.text)
